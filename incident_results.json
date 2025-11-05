@@ -1,0 +1,828 @@
+{
+  "summary": {
+    "total_incidents": 8,
+    "successful": 8,
+    "timestamp": "2025-11-05T07:53:03.049623",
+    "approach": "LLM-driven decisions"
+  },
+  "incidents": [
+    {
+      "status": "success",
+      "incident_id": "INC-2025-001",
+      "severity": "medium",
+      "region": "us-west-2",
+      "context": {
+        "business_hours": false,
+        "peak_traffic_hours": false,
+        "weekend": true,
+        "customer_facing": true,
+        "revenue_impacting": true
+      },
+      "report": {
+        "incident_id": "INC-2025-001",
+        "summary": "Search Index Corruption - medium severity in us-west-2",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552305",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:37:30.975160",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in us-west-2",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Isolate corrupted nodes",
+          "Rebuild search index from primary data",
+          "Verify index settings and mappings",
+          "Run index validation checks"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:37:30.975169"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105073831",
+          "incident_id": "INC-2025-001",
+          "platform": "Jira",
+          "title": "Search Index Corruption",
+          "description": "Product search returning incorrect results. Index corruption detected on 2 of 5 search nodes. Affecting search quality but not availability.",
+          "priority": "CRITICAL",
+          "assignee": null,
+          "created_at": "2025-11-05T07:38:31.467240",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105073831"
+        },
+        {
+          "ticket_id": "PD20251105073831",
+          "incident_id": "INC-2025-001",
+          "platform": "PagerDuty",
+          "title": "Search Index Corruption",
+          "description": "Product search returning incorrect results. Index corruption detected on 2 of 5 search nodes. Affecting search quality but not availability.",
+          "priority": "medium",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:38:31.568578",
+          "url": "https://company.pagerduty.com/incidents/PD20251105073831"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "CRITICAL",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents-critical",
+        "war_room": false,
+        "confidence": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: CRITICAL)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Slack alert sent to #incidents-critical"
+      ],
+      "reasoning": [
+        "Detailed explanation of your thinking process and why you made this decision"
+      ],
+      "llm_decision": {
+        "reasoning": "Detailed explanation of your thinking process and why you made this decision",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents-critical",
+        "jira_priority": "CRITICAL",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": false,
+        "confidence_level": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-002",
+      "severity": "high",
+      "region": "eu-west-1",
+      "context": {
+        "business_hours": true,
+        "peak_traffic_hours": true,
+        "weekend": false,
+        "customer_facing": false,
+        "revenue_impacting": false
+      },
+      "report": {
+        "incident_id": "INC-2025-002",
+        "summary": "Database Replication Lag - Internal Dashboard - high severity in eu-west-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552321",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:39:12.003877",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 2 components in eu-west-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Investigate slow queries on replica",
+          "Temporarily disable non-critical reporting jobs",
+          "Consider promoting new replica",
+          "Add query timeout limits"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:39:12.003883"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105074025",
+          "incident_id": "INC-2025-002",
+          "platform": "Jira",
+          "title": "Database Replication Lag - Internal Dashboard",
+          "description": "Analytics database replica experiencing 45-minute replication lag. Affecting internal reporting dashboards only. No customer impact.",
+          "priority": "CRITICAL",
+          "assignee": null,
+          "created_at": "2025-11-05T07:40:25.947353",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105074025"
+        },
+        {
+          "ticket_id": "PD20251105074026",
+          "incident_id": "INC-2025-002",
+          "platform": "PagerDuty",
+          "title": "Database Replication Lag - Internal Dashboard",
+          "description": "Analytics database replica experiencing 45-minute replication lag. Affecting internal reporting dashboards only. No customer impact.",
+          "priority": "high",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:40:26.048814",
+          "url": "https://company.pagerduty.com/incidents/PD20251105074026"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "CRITICAL",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents-critical",
+        "war_room": false,
+        "confidence": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: CRITICAL)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Slack alert sent to #incidents-critical"
+      ],
+      "reasoning": [
+        "This is a detailed explanation of my thinking process and why I made this decision. The high severity label indicates that the issue affects critical internal dashboards during peak traffic hours, but since there is no direct customer impact, it's not considered a low-urgency indicator. The replication lag exceeds the threshold, and long-running queries are detected on the replica, suggesting that the issue could worsen if not addressed quickly. Given the peak-hours window, I would not want to be woken up for this incident at this time unless it were more critical. However, since there is no revenue impact, I can tolerate waiting until business hours without major consequences. To balance urgency with team wellbeing, I will send an alert to the on-call engineer via PagerDuty during work hours and create a tracking ticket in JIRA to ensure timely attention while avoiding unnecessary disruptions to the team."
+      ],
+      "llm_decision": {
+        "reasoning": "This is a detailed explanation of my thinking process and why I made this decision. The high severity label indicates that the issue affects critical internal dashboards during peak traffic hours, but since there is no direct customer impact, it's not considered a low-urgency indicator. The replication lag exceeds the threshold, and long-running queries are detected on the replica, suggesting that the issue could worsen if not addressed quickly. Given the peak-hours window, I would not want to be woken up for this incident at this time unless it were more critical. However, since there is no revenue impact, I can tolerate waiting until business hours without major consequences. To balance urgency with team wellbeing, I will send an alert to the on-call engineer via PagerDuty during work hours and create a tracking ticket in JIRA to ensure timely attention while avoiding unnecessary disruptions to the team.",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents-critical",
+        "jira_priority": "CRITICAL",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": false,
+        "confidence_level": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-003",
+      "severity": "high",
+      "region": "us-west-2",
+      "context": {
+        "business_hours": false,
+        "peak_traffic_hours": true,
+        "weekend": false,
+        "customer_facing": false,
+        "revenue_impacting": false
+      },
+      "report": {
+        "incident_id": "INC-2025-003",
+        "summary": "Database Replication Lag - Internal Dashboard - high severity in us-west-2",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552330",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:41:26.677118",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 2 components in us-west-2",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Investigate slow queries on replica",
+          "Temporarily disable non-critical reporting jobs",
+          "Consider promoting new replica",
+          "Add query timeout limits"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:41:26.677125"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105074230",
+          "incident_id": "INC-2025-003",
+          "platform": "Jira",
+          "title": "Database Replication Lag - Internal Dashboard",
+          "description": "Analytics database replica experiencing 45-minute replication lag. Affecting internal reporting dashboards only. No customer impact.",
+          "priority": "CRITICAL",
+          "assignee": null,
+          "created_at": "2025-11-05T07:42:30.777975",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105074230"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "CRITICAL",
+        "pagerduty": false,
+        "slack": true,
+        "slack_channel": "#incidents-critical",
+        "war_room": false,
+        "confidence": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: CRITICAL)",
+        "\u2717 NO PagerDuty - LLM decided not to wake on-call",
+        "\u2713 Slack alert sent to #incidents-critical"
+      ],
+      "reasoning": [
+        "This decision was made after careful consideration of the incident details, temporal context, business impact, and available corrective actions. Given the minimal customer impact and off-hours timing, waking up an engineer during their sleep period seemed unnecessary without further investigation. Sending a Slack alert to the team channel ensures awareness while avoiding unnecessary wake-ups. Creating a JIRA tracking ticket for documentation is essential for proper incident management."
+      ],
+      "llm_decision": {
+        "reasoning": "This decision was made after careful consideration of the incident details, temporal context, business impact, and available corrective actions. Given the minimal customer impact and off-hours timing, waking up an engineer during their sleep period seemed unnecessary without further investigation. Sending a Slack alert to the team channel ensures awareness while avoiding unnecessary wake-ups. Creating a JIRA tracking ticket for documentation is essential for proper incident management.",
+        "use_pagerduty": false,
+        "pagerduty_urgency": null,
+        "use_slack": true,
+        "slack_channel": "#incidents-critical",
+        "jira_priority": "CRITICAL",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": true,
+        "confidence_level": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-004",
+      "severity": "critical",
+      "region": "eu-central-1",
+      "context": {
+        "business_hours": true,
+        "peak_traffic_hours": false,
+        "weekend": false,
+        "customer_facing": true,
+        "revenue_impacting": true
+      },
+      "report": {
+        "incident_id": "INC-2025-004",
+        "summary": "Payment Gateway Complete Outage - critical severity in eu-central-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552336",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:43:23.286137",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in eu-central-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Restart payment gateway service",
+          "Scale up database connection pool",
+          "Enable circuit breaker",
+          "Failover to backup payment processor"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:43:23.286152"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105074412",
+          "incident_id": "INC-2025-004",
+          "platform": "Jira",
+          "title": "Payment Gateway Complete Outage",
+          "description": "Payment processing service completely down. All payment attempts failing with 503 errors. Database connection timeouts observed across all payment nodes.",
+          "priority": "HIGH",
+          "assignee": null,
+          "created_at": "2025-11-05T07:44:12.016955",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105074412"
+        },
+        {
+          "ticket_id": "PD20251105074412",
+          "incident_id": "INC-2025-004",
+          "platform": "PagerDuty",
+          "title": "Payment Gateway Complete Outage",
+          "description": "Payment processing service completely down. All payment attempts failing with 503 errors. Database connection timeouts observed across all payment nodes.",
+          "priority": "critical",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:44:12.118228",
+          "url": "https://company.pagerduty.com/incidents/PD20251105074412"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "HIGH",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents",
+        "war_room": false,
+        "confidence": "low",
+        "key_factors": [
+          "parse_error"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: HIGH)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Slack alert sent to #incidents"
+      ],
+      "reasoning": [
+        "Failed to parse LLM output, using conservative defaults"
+      ],
+      "llm_decision": {
+        "reasoning": "Failed to parse LLM output, using conservative defaults",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents",
+        "jira_priority": "HIGH",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": false,
+        "confidence_level": "low",
+        "key_factors": [
+          "parse_error"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-005",
+      "severity": "medium",
+      "region": "ap-south-1",
+      "context": {
+        "business_hours": false,
+        "peak_traffic_hours": false,
+        "weekend": false,
+        "customer_facing": true,
+        "revenue_impacting": true
+      },
+      "report": {
+        "incident_id": "INC-2025-005",
+        "summary": "Search Index Corruption - medium severity in ap-south-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552341",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:45:03.885903",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in ap-south-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Isolate corrupted nodes",
+          "Rebuild search index from primary data",
+          "Verify index settings and mappings",
+          "Run index validation checks"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:45:03.885912"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105074556",
+          "incident_id": "INC-2025-005",
+          "platform": "Jira",
+          "title": "Search Index Corruption",
+          "description": "Product search returning incorrect results. Index corruption detected on 2 of 5 search nodes. Affecting search quality but not availability.",
+          "priority": "CRITICAL",
+          "assignee": null,
+          "created_at": "2025-11-05T07:45:56.932189",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105074556"
+        },
+        {
+          "ticket_id": "PD20251105074557",
+          "incident_id": "INC-2025-005",
+          "platform": "PagerDuty",
+          "title": "Search Index Corruption",
+          "description": "Product search returning incorrect results. Index corruption detected on 2 of 5 search nodes. Affecting search quality but not availability.",
+          "priority": "medium",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:45:57.033590",
+          "url": "https://company.pagerduty.com/incidents/PD20251105074557"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "CRITICAL",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents-critical",
+        "war_room": false,
+        "confidence": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: CRITICAL)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Slack alert sent to #incidents-critical"
+      ],
+      "reasoning": [
+        "This decision balances urgency with human impact consideration. By using PagerDuty immediately and sending an alert to the team during work hours via Slack, the on-call engineer will be notified of the incident without being disturbed. Creating a JIRA tracking ticket ensures asynchronous status updates while maintaining clear communication channels within the team."
+      ],
+      "llm_decision": {
+        "reasoning": "This decision balances urgency with human impact consideration. By using PagerDuty immediately and sending an alert to the team during work hours via Slack, the on-call engineer will be notified of the incident without being disturbed. Creating a JIRA tracking ticket ensures asynchronous status updates while maintaining clear communication channels within the team.",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents-critical",
+        "jira_priority": "CRITICAL",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": false,
+        "confidence_level": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-006",
+      "severity": "critical",
+      "region": "eu-west-1",
+      "context": {
+        "business_hours": true,
+        "peak_traffic_hours": true,
+        "weekend": false,
+        "customer_facing": true,
+        "revenue_impacting": true
+      },
+      "report": {
+        "incident_id": "INC-2025-006",
+        "summary": "Payment Gateway Complete Outage - critical severity in eu-west-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552345",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:46:47.812656",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in eu-west-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Restart payment gateway service",
+          "Scale up database connection pool",
+          "Enable circuit breaker",
+          "Failover to backup payment processor"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:46:47.812663"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105074838",
+          "incident_id": "INC-2025-006",
+          "platform": "Jira",
+          "title": "Payment Gateway Complete Outage",
+          "description": "Payment processing service completely down. All payment attempts failing with 503 errors. Database connection timeouts observed across all payment nodes.",
+          "priority": "HIGH",
+          "assignee": null,
+          "created_at": "2025-11-05T07:48:38.466797",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105074838"
+        },
+        {
+          "ticket_id": "PD20251105074838",
+          "incident_id": "INC-2025-006",
+          "platform": "PagerDuty",
+          "title": "Payment Gateway Complete Outage",
+          "description": "Payment processing service completely down. All payment attempts failing with 503 errors. Database connection timeouts observed across all payment nodes.",
+          "priority": "critical",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:48:38.567992",
+          "url": "https://company.pagerduty.com/incidents/PD20251105074838"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "HIGH",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents",
+        "war_room": false,
+        "confidence": "low",
+        "key_factors": [
+          "parse_error"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: HIGH)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Slack alert sent to #incidents"
+      ],
+      "reasoning": [
+        "Failed to parse LLM output, using conservative defaults"
+      ],
+      "llm_decision": {
+        "reasoning": "Failed to parse LLM output, using conservative defaults",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents",
+        "jira_priority": "HIGH",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": false,
+        "confidence_level": "low",
+        "key_factors": [
+          "parse_error"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-007",
+      "severity": "high",
+      "region": "eu-west-1",
+      "context": {
+        "business_hours": false,
+        "peak_traffic_hours": true,
+        "weekend": false,
+        "customer_facing": true,
+        "revenue_impacting": true
+      },
+      "report": {
+        "incident_id": "INC-2025-007",
+        "summary": "Authentication Service Degraded Performance - high severity in eu-west-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552350",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:49:31.002571",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in eu-west-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Scale auth service horizontally",
+          "Clear Redis cache and rebuild",
+          "Reduce token TTL temporarily",
+          "Enable rate limiting"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:49:31.002578"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105075133",
+          "incident_id": "INC-2025-007",
+          "platform": "Jira",
+          "title": "Authentication Service Degraded Performance",
+          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+          "priority": "HIGH",
+          "assignee": null,
+          "created_at": "2025-11-05T07:51:33.348873",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105075133"
+        },
+        {
+          "ticket_id": "PD20251105075133",
+          "incident_id": "INC-2025-007",
+          "platform": "PagerDuty",
+          "title": "Authentication Service Degraded Performance",
+          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+          "priority": "high",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:51:33.450260",
+          "url": "https://company.pagerduty.com/incidents/PD20251105075133"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "HIGH",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents",
+        "war_room": false,
+        "confidence": "low",
+        "key_factors": [
+          "parse_error"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: HIGH)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Slack alert sent to #incidents"
+      ],
+      "reasoning": [
+        "Failed to parse LLM output, using conservative defaults"
+      ],
+      "llm_decision": {
+        "reasoning": "Failed to parse LLM output, using conservative defaults",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents",
+        "jira_priority": "HIGH",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": false,
+        "wait_until_business_hours": false,
+        "confidence_level": "low",
+        "key_factors": [
+          "parse_error"
+        ]
+      }
+    },
+    {
+      "status": "success",
+      "incident_id": "INC-2025-008",
+      "severity": "high",
+      "region": "ap-south-1",
+      "context": {
+        "business_hours": true,
+        "peak_traffic_hours": false,
+        "weekend": true,
+        "customer_facing": true,
+        "revenue_impacting": true
+      },
+      "report": {
+        "incident_id": "INC-2025-008",
+        "summary": "Authentication Service Degraded Performance - high severity in ap-south-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T07:36:37.552354",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T07:52:29.869381",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in ap-south-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Scale auth service horizontally",
+          "Clear Redis cache and rebuild",
+          "Reduce token TTL temporarily",
+          "Enable rate limiting"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T07:52:29.869388"
+      },
+      "tickets": [
+        {
+          "ticket_id": "INCIDENT-20251105075302",
+          "incident_id": "INC-2025-008",
+          "platform": "Jira",
+          "title": "Authentication Service Degraded Performance",
+          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+          "priority": "CRITICAL",
+          "assignee": null,
+          "created_at": "2025-11-05T07:53:02.845353",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105075302"
+        },
+        {
+          "ticket_id": "PD20251105075302",
+          "incident_id": "INC-2025-008",
+          "platform": "PagerDuty",
+          "title": "Authentication Service Degraded Performance",
+          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+          "priority": "high",
+          "assignee": "On-call Engineer",
+          "created_at": "2025-11-05T07:53:02.946613",
+          "url": "https://company.pagerduty.com/incidents/PD20251105075302"
+        }
+      ],
+      "decision": {
+        "jira": true,
+        "jira_priority": "CRITICAL",
+        "pagerduty": true,
+        "slack": true,
+        "slack_channel": "#incidents-critical",
+        "war_room": false,
+        "confidence": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      },
+      "actions": [
+        "\u2713 Jira ticket created (Priority: CRITICAL)",
+        "\u2713 PagerDuty incident created (Urgency: high)",
+        "\u2713 Escalation policy triggered",
+        "\u2713 Slack alert sent to #incidents-critical"
+      ],
+      "reasoning": [
+        "The incident details suggest that user login attempts are experiencing significant delays due to auth service degradation, which affects 30% of requests. The current business hours and reduced on-call coverage during the weekend do not justify waiting for the issue to resolve itself without taking proactive steps. Given the customer-facing nature of the service and revenue-impacting potential, immediate action is necessary to mitigate the impact on external users and company revenue. Triggering escalation policy involves management involvement, which may help expedite resolution. However, it's essential to note that this decision could lead to further communication with stakeholders and potentially increased stress for on-call engineers. Considering the high severity label and the potential for worsening situation if delayed, the confidence level is set as 'high'."
+      ],
+      "llm_decision": {
+        "reasoning": "The incident details suggest that user login attempts are experiencing significant delays due to auth service degradation, which affects 30% of requests. The current business hours and reduced on-call coverage during the weekend do not justify waiting for the issue to resolve itself without taking proactive steps. Given the customer-facing nature of the service and revenue-impacting potential, immediate action is necessary to mitigate the impact on external users and company revenue. Triggering escalation policy involves management involvement, which may help expedite resolution. However, it's essential to note that this decision could lead to further communication with stakeholders and potentially increased stress for on-call engineers. Considering the high severity label and the potential for worsening situation if delayed, the confidence level is set as 'high'.",
+        "use_pagerduty": true,
+        "pagerduty_urgency": "high",
+        "use_slack": true,
+        "slack_channel": "#incidents-critical",
+        "jira_priority": "CRITICAL",
+        "create_jira": true,
+        "create_war_room": false,
+        "trigger_escalation": true,
+        "wait_until_business_hours": false,
+        "confidence_level": "high",
+        "key_factors": [
+          "customer-facing",
+          "revenue-impacting",
+          "peak-hours"
+        ]
+      }
+    }
+  ]
+}
