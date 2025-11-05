@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_incidents": 8,
-    "successful": 8,
-    "timestamp": "2025-11-05T08:29:07.803042",
+    "total_incidents": 4,
+    "successful": 4,
+    "timestamp": "2025-11-05T09:17:33.426377",
     "approach": "LLM-driven decisions (no hardcoded rules)"
   },
   "incidents": [
@@ -10,7 +10,7 @@
       "status": "success",
       "incident_id": "INC-2025-001",
       "severity": "high",
-      "region": "eu-central-1",
+      "region": "eu-west-1",
       "context": {
         "business_hours": false,
         "peak_traffic_hours": false,
@@ -20,18 +20,18 @@
       },
       "report": {
         "incident_id": "INC-2025-001",
-        "summary": "Authentication Service Degraded Performance - high severity in eu-central-1",
+        "summary": "Authentication Service Degraded Performance - high severity in eu-west-1",
         "timeline": [
           {
-            "time": "2025-11-05T08:15:58.053094",
+            "time": "2025-11-05T09:10:19.207939",
             "event": "Incident detected"
           },
           {
-            "time": "2025-11-05T08:16:56.866564",
+            "time": "2025-11-05T09:11:14.577623",
             "event": "Report generated"
           }
         ],
-        "impact_analysis": "Affected 3 components in eu-central-1",
+        "impact_analysis": "Affected 3 components in eu-west-1",
         "root_cause": "Investigation in progress",
         "resolution_steps": [
           "Scale auth service horizontally",
@@ -44,30 +44,30 @@
           "Automated remediation",
           "Capacity review"
         ],
-        "generated_at": "2025-11-05T08:16:56.866579"
+        "generated_at": "2025-11-05T09:11:14.577634"
       },
       "tickets": [
         {
-          "ticket_id": "INCIDENT-20251105081745",
+          "ticket_id": "INCIDENT-20251105091157",
           "incident_id": "INC-2025-001",
           "platform": "Jira",
           "title": "Authentication Service Degraded Performance",
           "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
           "priority": "HIGH",
           "assignee": null,
-          "created_at": "2025-11-05T08:17:45.784626",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105081745"
+          "created_at": "2025-11-05T09:11:57.898844",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105091157"
         },
         {
-          "ticket_id": "PD20251105081745",
+          "ticket_id": "PD20251105091158",
           "incident_id": "INC-2025-001",
           "platform": "PagerDuty",
           "title": "Authentication Service Degraded Performance",
           "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
           "priority": "high",
           "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:17:45.886017",
-          "url": "https://company.pagerduty.com/incidents/PD20251105081745"
+          "created_at": "2025-11-05T09:11:58.000193",
+          "url": "https://company.pagerduty.com/incidents/PD20251105091158"
         }
       ],
       "decision": {
@@ -110,7 +110,7 @@
     {
       "status": "success",
       "incident_id": "INC-2025-002",
-      "severity": "high",
+      "severity": "medium",
       "region": "us-east-1",
       "context": {
         "business_hours": true,
@@ -121,54 +121,54 @@
       },
       "report": {
         "incident_id": "INC-2025-002",
-        "summary": "Authentication Service Degraded Performance - high severity in us-east-1",
+        "summary": "API Rate Limiting - Partner Payment Service - medium severity in us-east-1",
         "timeline": [
           {
-            "time": "2025-11-05T08:15:58.053109",
+            "time": "2025-11-05T09:10:19.207955",
             "event": "Incident detected"
           },
           {
-            "time": "2025-11-05T08:18:37.978338",
+            "time": "2025-11-05T09:12:57.696400",
             "event": "Report generated"
           }
         ],
         "impact_analysis": "Affected 3 components in us-east-1",
         "root_cause": "Investigation in progress",
         "resolution_steps": [
-          "Scale auth service horizontally",
-          "Clear Redis cache and rebuild",
-          "Reduce token TTL temporarily",
-          "Enable rate limiting"
+          "Implement exponential backoff",
+          "Negotiate higher rate limits with partner",
+          "Enable request batching",
+          "Add fallback payment provider"
         ],
         "recommendations": [
           "Enhanced monitoring",
           "Automated remediation",
           "Capacity review"
         ],
-        "generated_at": "2025-11-05T08:18:37.978366"
+        "generated_at": "2025-11-05T09:12:57.696409"
       },
       "tickets": [
         {
-          "ticket_id": "INCIDENT-20251105081916",
+          "ticket_id": "INCIDENT-20251105091348",
           "incident_id": "INC-2025-002",
           "platform": "Jira",
-          "title": "Authentication Service Degraded Performance",
-          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+          "title": "API Rate Limiting - Partner Payment Service",
+          "description": "Third-party payment provider rate limiting our API calls. Affecting 25% of checkout flows during peak hours.",
           "priority": "HIGH",
           "assignee": null,
-          "created_at": "2025-11-05T08:19:16.682006",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105081916"
+          "created_at": "2025-11-05T09:13:48.131482",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105091348"
         },
         {
-          "ticket_id": "PD20251105081916",
+          "ticket_id": "PD20251105091348",
           "incident_id": "INC-2025-002",
           "platform": "PagerDuty",
-          "title": "Authentication Service Degraded Performance",
-          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
-          "priority": "high",
+          "title": "API Rate Limiting - Partner Payment Service",
+          "description": "Third-party payment provider rate limiting our API calls. Affecting 25% of checkout flows during peak hours.",
+          "priority": "medium",
           "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:19:16.783334",
-          "url": "https://company.pagerduty.com/incidents/PD20251105081916"
+          "created_at": "2025-11-05T09:13:48.232783",
+          "url": "https://company.pagerduty.com/incidents/PD20251105091348"
         }
       ],
       "decision": {
@@ -211,65 +211,65 @@
     {
       "status": "success",
       "incident_id": "INC-2025-003",
-      "severity": "high",
-      "region": "ap-south-1",
+      "severity": "low",
+      "region": "us-west-2",
       "context": {
         "business_hours": false,
         "peak_traffic_hours": true,
         "weekend": false,
-        "customer_facing": true,
-        "revenue_impacting": true
+        "customer_facing": false,
+        "revenue_impacting": false
       },
       "report": {
         "incident_id": "INC-2025-003",
-        "summary": "Authentication Service Degraded Performance - high severity in ap-south-1",
+        "summary": "Memory Leak in Notification Service - low severity in us-west-2",
         "timeline": [
           {
-            "time": "2025-11-05T08:15:58.053118",
+            "time": "2025-11-05T09:10:19.207963",
             "event": "Incident detected"
           },
           {
-            "time": "2025-11-05T08:20:09.950157",
+            "time": "2025-11-05T09:14:42.594451",
             "event": "Report generated"
           }
         ],
-        "impact_analysis": "Affected 3 components in ap-south-1",
+        "impact_analysis": "Affected 2 components in us-west-2",
         "root_cause": "Investigation in progress",
         "resolution_steps": [
-          "Scale auth service horizontally",
-          "Clear Redis cache and rebuild",
-          "Reduce token TTL temporarily",
-          "Enable rate limiting"
+          "Schedule rolling restart during low traffic",
+          "Enable heap dump for analysis",
+          "Review recent code changes",
+          "Monitor for OOM conditions"
         ],
         "recommendations": [
           "Enhanced monitoring",
           "Automated remediation",
           "Capacity review"
         ],
-        "generated_at": "2025-11-05T08:20:09.950177"
+        "generated_at": "2025-11-05T09:14:42.594466"
       },
       "tickets": [
         {
-          "ticket_id": "INCIDENT-20251105082056",
+          "ticket_id": "INCIDENT-20251105091557",
           "incident_id": "INC-2025-003",
           "platform": "Jira",
-          "title": "Authentication Service Degraded Performance",
-          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+          "title": "Memory Leak in Notification Service",
+          "description": "User notification service showing steady memory growth. Memory usage at 85% and climbing. No immediate functional impact but service restart needed soon.",
           "priority": "HIGH",
           "assignee": null,
-          "created_at": "2025-11-05T08:20:56.688115",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105082056"
+          "created_at": "2025-11-05T09:15:57.091813",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105091557"
         },
         {
-          "ticket_id": "PD20251105082056",
+          "ticket_id": "PD20251105091557",
           "incident_id": "INC-2025-003",
           "platform": "PagerDuty",
-          "title": "Authentication Service Degraded Performance",
-          "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
-          "priority": "high",
+          "title": "Memory Leak in Notification Service",
+          "description": "User notification service showing steady memory growth. Memory usage at 85% and climbing. No immediate functional impact but service restart needed soon.",
+          "priority": "low",
           "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:20:56.789386",
-          "url": "https://company.pagerduty.com/incidents/PD20251105082056"
+          "created_at": "2025-11-05T09:15:57.193084",
+          "url": "https://company.pagerduty.com/incidents/PD20251105091557"
         }
       ],
       "decision": {
@@ -313,7 +313,7 @@
       "status": "success",
       "incident_id": "INC-2025-004",
       "severity": "critical",
-      "region": "eu-west-1",
+      "region": "us-west-2",
       "context": {
         "business_hours": true,
         "peak_traffic_hours": false,
@@ -323,418 +323,14 @@
       },
       "report": {
         "incident_id": "INC-2025-004",
-        "summary": "DDoS Attack Suspected - critical severity in eu-west-1",
-        "timeline": [
-          {
-            "time": "2025-11-05T08:15:58.053123",
-            "event": "Incident detected"
-          },
-          {
-            "time": "2025-11-05T08:21:41.059303",
-            "event": "Report generated"
-          }
-        ],
-        "impact_analysis": "Affected 3 components in eu-west-1",
-        "root_cause": "Investigation in progress",
-        "resolution_steps": [
-          "Refine WAF rules to reduce false positives",
-          "Enable advanced DDoS protection",
-          "Contact ISP for upstream filtering",
-          "Implement CAPTCHA for suspicious traffic"
-        ],
-        "recommendations": [
-          "Enhanced monitoring",
-          "Automated remediation",
-          "Capacity review"
-        ],
-        "generated_at": "2025-11-05T08:21:41.059315"
-      },
-      "tickets": [
-        {
-          "ticket_id": "INCIDENT-20251105082222",
-          "incident_id": "INC-2025-004",
-          "platform": "Jira",
-          "title": "DDoS Attack Suspected",
-          "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
-          "priority": "HIGH",
-          "assignee": null,
-          "created_at": "2025-11-05T08:22:22.977676",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105082222"
-        },
-        {
-          "ticket_id": "PD20251105082223",
-          "incident_id": "INC-2025-004",
-          "platform": "PagerDuty",
-          "title": "DDoS Attack Suspected",
-          "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
-          "priority": "critical",
-          "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:22:23.078945",
-          "url": "https://company.pagerduty.com/incidents/PD20251105082223"
-        }
-      ],
-      "decision": {
-        "jira": true,
-        "jira_priority": "HIGH",
-        "pagerduty": true,
-        "slack": true,
-        "slack_channel": "#incidents",
-        "war_room": false,
-        "confidence": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      },
-      "actions": [
-        "\u2713 Jira ticket created (Priority: HIGH)",
-        "\u2713 PagerDuty incident created (Urgency: high)",
-        "\u2713 Slack alert sent to #incidents"
-      ],
-      "reasoning": [
-        "Failed to parse LLM output, using conservative defaults"
-      ],
-      "llm_decision": {
-        "reasoning": "Failed to parse LLM output, using conservative defaults",
-        "use_pagerduty": true,
-        "pagerduty_urgency": "high",
-        "use_slack": true,
-        "slack_channel": "#incidents",
-        "jira_priority": "HIGH",
-        "create_jira": true,
-        "create_war_room": false,
-        "trigger_escalation": false,
-        "wait_until_business_hours": false,
-        "confidence_level": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      }
-    },
-    {
-      "status": "success",
-      "incident_id": "INC-2025-005",
-      "severity": "low",
-      "region": "eu-central-1",
-      "context": {
-        "business_hours": false,
-        "peak_traffic_hours": false,
-        "weekend": false,
-        "customer_facing": false,
-        "revenue_impacting": false
-      },
-      "report": {
-        "incident_id": "INC-2025-005",
-        "summary": "Memory Leak in Notification Service - low severity in eu-central-1",
-        "timeline": [
-          {
-            "time": "2025-11-05T08:15:58.053128",
-            "event": "Incident detected"
-          },
-          {
-            "time": "2025-11-05T08:23:08.455753",
-            "event": "Report generated"
-          }
-        ],
-        "impact_analysis": "Affected 2 components in eu-central-1",
-        "root_cause": "Investigation in progress",
-        "resolution_steps": [
-          "Schedule rolling restart during low traffic",
-          "Enable heap dump for analysis",
-          "Review recent code changes",
-          "Monitor for OOM conditions"
-        ],
-        "recommendations": [
-          "Enhanced monitoring",
-          "Automated remediation",
-          "Capacity review"
-        ],
-        "generated_at": "2025-11-05T08:23:08.455771"
-      },
-      "tickets": [
-        {
-          "ticket_id": "INCIDENT-20251105082352",
-          "incident_id": "INC-2025-005",
-          "platform": "Jira",
-          "title": "Memory Leak in Notification Service",
-          "description": "User notification service showing steady memory growth. Memory usage at 85% and climbing. No immediate functional impact but service restart needed soon.",
-          "priority": "HIGH",
-          "assignee": null,
-          "created_at": "2025-11-05T08:23:52.658629",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105082352"
-        },
-        {
-          "ticket_id": "PD20251105082352",
-          "incident_id": "INC-2025-005",
-          "platform": "PagerDuty",
-          "title": "Memory Leak in Notification Service",
-          "description": "User notification service showing steady memory growth. Memory usage at 85% and climbing. No immediate functional impact but service restart needed soon.",
-          "priority": "low",
-          "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:23:52.759914",
-          "url": "https://company.pagerduty.com/incidents/PD20251105082352"
-        }
-      ],
-      "decision": {
-        "jira": true,
-        "jira_priority": "HIGH",
-        "pagerduty": true,
-        "slack": true,
-        "slack_channel": "#incidents",
-        "war_room": false,
-        "confidence": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      },
-      "actions": [
-        "\u2713 Jira ticket created (Priority: HIGH)",
-        "\u2713 PagerDuty incident created (Urgency: high)",
-        "\u2713 Slack alert sent to #incidents"
-      ],
-      "reasoning": [
-        "Failed to parse LLM output, using conservative defaults"
-      ],
-      "llm_decision": {
-        "reasoning": "Failed to parse LLM output, using conservative defaults",
-        "use_pagerduty": true,
-        "pagerduty_urgency": "high",
-        "use_slack": true,
-        "slack_channel": "#incidents",
-        "jira_priority": "HIGH",
-        "create_jira": true,
-        "create_war_room": false,
-        "trigger_escalation": false,
-        "wait_until_business_hours": false,
-        "confidence_level": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      }
-    },
-    {
-      "status": "success",
-      "incident_id": "INC-2025-006",
-      "severity": "critical",
-      "region": "us-east-1",
-      "context": {
-        "business_hours": true,
-        "peak_traffic_hours": true,
-        "weekend": false,
-        "customer_facing": true,
-        "revenue_impacting": true
-      },
-      "report": {
-        "incident_id": "INC-2025-006",
-        "summary": "DDoS Attack Suspected - critical severity in us-east-1",
-        "timeline": [
-          {
-            "time": "2025-11-05T08:15:58.053133",
-            "event": "Incident detected"
-          },
-          {
-            "time": "2025-11-05T08:24:47.054115",
-            "event": "Report generated"
-          }
-        ],
-        "impact_analysis": "Affected 3 components in us-east-1",
-        "root_cause": "Investigation in progress",
-        "resolution_steps": [
-          "Refine WAF rules to reduce false positives",
-          "Enable advanced DDoS protection",
-          "Contact ISP for upstream filtering",
-          "Implement CAPTCHA for suspicious traffic"
-        ],
-        "recommendations": [
-          "Enhanced monitoring",
-          "Automated remediation",
-          "Capacity review"
-        ],
-        "generated_at": "2025-11-05T08:24:47.054124"
-      },
-      "tickets": [
-        {
-          "ticket_id": "INCIDENT-20251105082526",
-          "incident_id": "INC-2025-006",
-          "platform": "Jira",
-          "title": "DDoS Attack Suspected",
-          "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
-          "priority": "HIGH",
-          "assignee": null,
-          "created_at": "2025-11-05T08:25:26.643295",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105082526"
-        },
-        {
-          "ticket_id": "PD20251105082526",
-          "incident_id": "INC-2025-006",
-          "platform": "PagerDuty",
-          "title": "DDoS Attack Suspected",
-          "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
-          "priority": "critical",
-          "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:25:26.744552",
-          "url": "https://company.pagerduty.com/incidents/PD20251105082526"
-        }
-      ],
-      "decision": {
-        "jira": true,
-        "jira_priority": "HIGH",
-        "pagerduty": true,
-        "slack": true,
-        "slack_channel": "#incidents",
-        "war_room": false,
-        "confidence": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      },
-      "actions": [
-        "\u2713 Jira ticket created (Priority: HIGH)",
-        "\u2713 PagerDuty incident created (Urgency: high)",
-        "\u2713 Slack alert sent to #incidents"
-      ],
-      "reasoning": [
-        "Failed to parse LLM output, using conservative defaults"
-      ],
-      "llm_decision": {
-        "reasoning": "Failed to parse LLM output, using conservative defaults",
-        "use_pagerduty": true,
-        "pagerduty_urgency": "high",
-        "use_slack": true,
-        "slack_channel": "#incidents",
-        "jira_priority": "HIGH",
-        "create_jira": true,
-        "create_war_room": false,
-        "trigger_escalation": false,
-        "wait_until_business_hours": false,
-        "confidence_level": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      }
-    },
-    {
-      "status": "success",
-      "incident_id": "INC-2025-007",
-      "severity": "critical",
-      "region": "us-east-1",
-      "context": {
-        "business_hours": false,
-        "peak_traffic_hours": true,
-        "weekend": false,
-        "customer_facing": true,
-        "revenue_impacting": true
-      },
-      "report": {
-        "incident_id": "INC-2025-007",
-        "summary": "DDoS Attack Suspected - critical severity in us-east-1",
-        "timeline": [
-          {
-            "time": "2025-11-05T08:15:58.053137",
-            "event": "Incident detected"
-          },
-          {
-            "time": "2025-11-05T08:26:10.195726",
-            "event": "Report generated"
-          }
-        ],
-        "impact_analysis": "Affected 3 components in us-east-1",
-        "root_cause": "Investigation in progress",
-        "resolution_steps": [
-          "Refine WAF rules to reduce false positives",
-          "Enable advanced DDoS protection",
-          "Contact ISP for upstream filtering",
-          "Implement CAPTCHA for suspicious traffic"
-        ],
-        "recommendations": [
-          "Enhanced monitoring",
-          "Automated remediation",
-          "Capacity review"
-        ],
-        "generated_at": "2025-11-05T08:26:10.195737"
-      },
-      "tickets": [
-        {
-          "ticket_id": "INCIDENT-20251105082709",
-          "incident_id": "INC-2025-007",
-          "platform": "Jira",
-          "title": "DDoS Attack Suspected",
-          "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
-          "priority": "HIGH",
-          "assignee": null,
-          "created_at": "2025-11-05T08:27:09.993865",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105082709"
-        },
-        {
-          "ticket_id": "PD20251105082710",
-          "incident_id": "INC-2025-007",
-          "platform": "PagerDuty",
-          "title": "DDoS Attack Suspected",
-          "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
-          "priority": "critical",
-          "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:27:10.095357",
-          "url": "https://company.pagerduty.com/incidents/PD20251105082710"
-        }
-      ],
-      "decision": {
-        "jira": true,
-        "jira_priority": "HIGH",
-        "pagerduty": true,
-        "slack": true,
-        "slack_channel": "#incidents",
-        "war_room": false,
-        "confidence": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      },
-      "actions": [
-        "\u2713 Jira ticket created (Priority: HIGH)",
-        "\u2713 PagerDuty incident created (Urgency: high)",
-        "\u2713 Slack alert sent to #incidents"
-      ],
-      "reasoning": [
-        "Failed to parse LLM output, using conservative defaults"
-      ],
-      "llm_decision": {
-        "reasoning": "Failed to parse LLM output, using conservative defaults",
-        "use_pagerduty": true,
-        "pagerduty_urgency": "high",
-        "use_slack": true,
-        "slack_channel": "#incidents",
-        "jira_priority": "HIGH",
-        "create_jira": true,
-        "create_war_room": false,
-        "trigger_escalation": false,
-        "wait_until_business_hours": false,
-        "confidence_level": "low",
-        "key_factors": [
-          "parse_error"
-        ]
-      }
-    },
-    {
-      "status": "success",
-      "incident_id": "INC-2025-008",
-      "severity": "critical",
-      "region": "us-west-2",
-      "context": {
-        "business_hours": true,
-        "peak_traffic_hours": false,
-        "weekend": true,
-        "customer_facing": true,
-        "revenue_impacting": true
-      },
-      "report": {
-        "incident_id": "INC-2025-008",
         "summary": "DDoS Attack Suspected - critical severity in us-west-2",
         "timeline": [
           {
-            "time": "2025-11-05T08:15:58.053142",
+            "time": "2025-11-05T09:10:19.207968",
             "event": "Incident detected"
           },
           {
-            "time": "2025-11-05T08:28:21.348833",
+            "time": "2025-11-05T09:16:44.841339",
             "event": "Report generated"
           }
         ],
@@ -751,30 +347,30 @@
           "Automated remediation",
           "Capacity review"
         ],
-        "generated_at": "2025-11-05T08:28:21.348846"
+        "generated_at": "2025-11-05T09:16:44.841367"
       },
       "tickets": [
         {
-          "ticket_id": "INCIDENT-20251105082907",
-          "incident_id": "INC-2025-008",
+          "ticket_id": "INCIDENT-20251105091733",
+          "incident_id": "INC-2025-004",
           "platform": "Jira",
           "title": "DDoS Attack Suspected",
           "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
           "priority": "HIGH",
           "assignee": null,
-          "created_at": "2025-11-05T08:29:07.598151",
-          "url": "https://jira.company.com/browse/INCIDENT-20251105082907"
+          "created_at": "2025-11-05T09:17:33.219704",
+          "url": "https://jira.company.com/browse/INCIDENT-20251105091733"
         },
         {
-          "ticket_id": "PD20251105082907",
-          "incident_id": "INC-2025-008",
+          "ticket_id": "PD20251105091733",
+          "incident_id": "INC-2025-004",
           "platform": "PagerDuty",
           "title": "DDoS Attack Suspected",
           "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
           "priority": "critical",
           "assignee": "On-call Engineer",
-          "created_at": "2025-11-05T08:29:07.699459",
-          "url": "https://company.pagerduty.com/incidents/PD20251105082907"
+          "created_at": "2025-11-05T09:17:33.322044",
+          "url": "https://company.pagerduty.com/incidents/PD20251105091733"
         }
       ],
       "decision": {

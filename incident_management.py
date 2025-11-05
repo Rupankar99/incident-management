@@ -3,7 +3,6 @@ Incident Management System with AI Agents
 Uses CrewAI for orchestrating reporting and ticketing automation
 Integrates with MCP servers (Jira, Slack, PagerDuty)
 TRUE LLM-driven decision making (NO hardcoded if-else logic)
-WITH PERSISTENT REPORT STORAGE
 """
 
 from crewai import Agent, Task, Crew, Process, LLM
@@ -12,7 +11,6 @@ from datetime import datetime
 from enum import Enum
 import json
 from dataclasses import dataclass, asdict
-from pathlib import Path
 import asyncio
 import random
 import re
@@ -59,8 +57,8 @@ class Incident:
 @dataclass
 class IncidentContext:
     """Extended incident context for nuanced decision making"""
-    business_hours: bool
-    peak_traffic_hours: bool
+    business_hours: bool  # 9 AM - 6 PM local time
+    peak_traffic_hours: bool  # 10 AM - 2 PM, 6 PM - 9 PM
     weekend: bool
     customer_facing: bool
     revenue_impacting: bool
@@ -76,7 +74,6 @@ class IncidentReport:
     resolution_steps: List[str]
     recommendations: List[str]
     generated_at: str
-    llm_analysis: Optional[str] = None  # Store raw LLM output
 
 
 @dataclass
@@ -96,179 +93,6 @@ llm = LLM(
     model="ollama/llama3.2",
     base_url="http://localhost:11434"
 )
-
-
-# ============================================================================
-# REPORT STORAGE MANAGER
-# ============================================================================
-
-class ReportStorageManager:
-    """Manages persistent storage of incident reports"""
-    
-    def __init__(self, base_dir: str = "incident_reports"):
-        self.base_dir = Path(base_dir)
-        self.reports_dir = self.base_dir / "reports"
-        self.markdown_dir = self.base_dir / "markdown"
-        self.json_dir = self.base_dir / "json"
-        
-        # Create directories
-        self._setup_directories()
-    
-    def _setup_directories(self):
-        """Create necessary directories"""
-        for directory in [self.reports_dir, self.markdown_dir, self.json_dir]:
-            directory.mkdir(parents=True, exist_ok=True)
-        
-        print(f"📁 Report storage initialized at: {self.base_dir.absolute()}")
-    
-    def save_report_json(self, report: IncidentReport, incident: Incident) -> Path:
-        """Save report as JSON file"""
-        filename = f"{report.incident_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        filepath = self.json_dir / filename
-        
-        report_data = {
-            "report": asdict(report),
-            "incident": asdict(incident),
-            "saved_at": datetime.now().isoformat()
-        }
-        
-        # Convert enums to strings
-        report_data["incident"]["severity"] = incident.severity.value
-        report_data["incident"]["status"] = incident.status.value
-        
-        with open(filepath, 'w') as f:
-            json.dump(report_data, f, indent=2, default=str)
-        
-        return filepath
-    
-    def save_report_markdown(self, report: IncidentReport, incident: Incident, 
-                           context: IncidentContext) -> Path:
-        """Save report as Markdown file"""
-        filename = f"{report.incident_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-        filepath = self.markdown_dir / filename
-        
-        markdown_content = self._generate_markdown(report, incident, context)
-        
-        with open(filepath, 'w') as f:
-            f.write(markdown_content)
-        
-        return filepath
-    
-    def _generate_markdown(self, report: IncidentReport, incident: Incident, 
-                          context: IncidentContext) -> str:
-        """Generate markdown formatted report"""
-        md = []
-        
-        # Header
-        md.append(f"# Incident Report: {incident.title}")
-        md.append(f"\n**Incident ID:** `{incident.id}`")
-        md.append(f"**Generated:** {report.generated_at}")
-        md.append(f"**Severity:** {incident.severity.value.upper()}")
-        md.append(f"**Region:** {incident.region}")
-        md.append(f"**Service:** {incident.service}")
-        md.append("\n---\n")
-        
-        # Context
-        md.append("## Context")
-        md.append(f"- **Business Hours:** {'Yes' if context.business_hours else 'No'}")
-        md.append(f"- **Peak Traffic:** {'Yes' if context.peak_traffic_hours else 'No'}")
-        md.append(f"- **Weekend:** {'Yes' if context.weekend else 'No'}")
-        md.append(f"- **Customer Facing:** {'Yes' if context.customer_facing else 'No'}")
-        md.append(f"- **Revenue Impacting:** {'Yes' if context.revenue_impacting else 'No'}")
-        md.append("\n")
-        
-        # Executive Summary
-        md.append("## Executive Summary")
-        md.append(f"{report.summary}\n")
-        
-        # Description
-        md.append("## Incident Description")
-        md.append(f"{incident.incident_text}\n")
-        
-        # Timeline
-        md.append("## Timeline")
-        for event in report.timeline:
-            md.append(f"- **{event['time']}**: {event['event']}")
-        md.append("\n")
-        
-        # Impact Analysis
-        md.append("## Impact Analysis")
-        md.append(f"{report.impact_analysis}\n")
-        
-        # Technical Metrics
-        md.append("## Technical Metrics")
-        for key, value in incident.metrics.items():
-            md.append(f"- **{key.replace('_', ' ').title()}:** {value}")
-        md.append("\n")
-        
-        # Affected Components
-        md.append("## Affected Components")
-        for component in incident.affected_components:
-            md.append(f"- {component}")
-        md.append("\n")
-        
-        # Root Cause
-        md.append("## Root Cause Analysis")
-        md.append(f"{report.root_cause}\n")
-        
-        # Resolution Steps
-        md.append("## Resolution Steps")
-        for i, step in enumerate(report.resolution_steps, 1):
-            md.append(f"{i}. {step}")
-        md.append("\n")
-        
-        # Recent Logs
-        md.append("## Recent Logs")
-        md.append("```")
-        for log in incident.logs[-5:]:
-            md.append(log)
-        md.append("```\n")
-        
-        # Recommendations
-        md.append("## Recommendations")
-        for rec in report.recommendations:
-            md.append(f"- {rec}")
-        md.append("\n")
-        
-        # LLM Analysis (if available)
-        if report.llm_analysis:
-            md.append("## AI Analysis")
-            md.append("```")
-            md.append(report.llm_analysis)
-            md.append("```\n")
-        
-        md.append("---\n")
-        md.append(f"*Report generated by Intelligent Incident Management System*")
-        
-        return "\n".join(md)
-    
-    def get_all_reports(self) -> List[Dict[str, Any]]:
-        """Load all stored reports"""
-        reports = []
-        
-        for json_file in self.json_dir.glob("*.json"):
-            with open(json_file, 'r') as f:
-                reports.append(json.load(f))
-        
-        return reports
-    
-    def export_summary(self, output_file: str = "reports_summary.json"):
-        """Export summary of all reports"""
-        all_reports = self.get_all_reports()
-        
-        summary = {
-            "total_reports": len(all_reports),
-            "generated_at": datetime.now().isoformat(),
-            "reports": all_reports
-        }
-        
-        filepath = self.base_dir / output_file
-        with open(filepath, 'w') as f:
-            json.dump(summary, f, indent=2, default=str)
-        
-        print(f"📊 Summary exported to: {filepath}")
-        return filepath
-
 
 # ============================================================================
 # SYNTHETIC DATA GENERATOR
@@ -395,18 +219,18 @@ class SyntheticIncidentGenerator:
             
             # Vary time contexts for testing
             force_hour = None
-            if i % 4 == 0:
+            if i % 4 == 0:  # 3 AM off-hours
                 force_hour = 3
-            elif i % 4 == 1:
+            elif i % 4 == 1:  # 11 AM peak
                 force_hour = 11
-            elif i % 4 == 2:
+            elif i % 4 == 2:  # 7 PM evening peak
                 force_hour = 19
-            elif i % 4 == 3:
+            elif i % 4 == 3:  # Normal business hours
                 force_hour = 14
             
             business_hours, peak_traffic, weekend = self._get_time_context(force_hour)
             
-            if i % 7 == 0:
+            if i % 7 == 0:  # Some on weekends
                 weekend = True
                 
             region = random.choice(self.regions)
@@ -442,27 +266,35 @@ class SyntheticIncidentGenerator:
 
 
 # ============================================================================
-# MCP SERVER TOOLS (keeping original code)
+# MCP SERVER TOOLS
 # ============================================================================
 
 class MCPServerTool:
+    """Base class for MCP server tools"""
+    
     def __init__(self, server_name: str):
         self.server_name = server_name
         self.connected = False
     
     async def connect(self):
+        """Connect to MCP server"""
         await asyncio.sleep(0.1)
         self.connected = True
 
 
 class JiraMCPTool(MCPServerTool):
+    """Jira MCP Server Integration"""
+    
     def __init__(self):
         super().__init__("Jira")
     
     async def create_issue(self, project: str, summary: str, description: str, 
                           priority: str, issue_type: str = "Bug") -> Dict[str, Any]:
+        """Create a Jira issue"""
         await self.connect()
+        
         ticket_id = f"INCIDENT-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        
         return {
             "status": "success",
             "ticket_id": ticket_id,
@@ -472,11 +304,15 @@ class JiraMCPTool(MCPServerTool):
 
 
 class SlackMCPTool(MCPServerTool):
+    """Slack MCP Server Integration"""
+    
     def __init__(self):
         super().__init__("Slack")
     
     async def send_message(self, channel: str, message: str) -> Dict[str, Any]:
+        """Send message to Slack channel"""
         await self.connect()
+        
         return {
             "status": "success",
             "channel": channel,
@@ -484,30 +320,39 @@ class SlackMCPTool(MCPServerTool):
         }
     
     async def create_incident_channel(self, incident_id: str) -> Dict[str, Any]:
+        """Create dedicated incident channel"""
         channel_name = f"incident-{incident_id}"
+        
         return {
             "status": "success",
             "channel_name": channel_name
         }
     
     async def send_alert(self, channel: str, severity: str, message: str) -> Dict[str, Any]:
+        """Send formatted alert to Slack"""
         emoji = {
             "critical": "🚨",
             "high": "⚠️",
             "medium": "⚡",
             "low": "ℹ️"
         }.get(severity.lower(), "📢")
+        
         return await self.send_message(channel, f"{emoji} *{severity.upper()}* Alert\n{message}")
 
 
 class PagerDutyMCPTool(MCPServerTool):
+    """PagerDuty MCP Server Integration"""
+    
     def __init__(self):
         super().__init__("PagerDuty")
     
     async def create_incident(self, title: str, description: str, 
                              urgency: str, service_id: str) -> Dict[str, Any]:
+        """Create PagerDuty incident"""
         await self.connect()
+        
         incident_id = f"PD{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        
         return {
             "status": "success",
             "incident_id": incident_id,
@@ -516,6 +361,7 @@ class PagerDutyMCPTool(MCPServerTool):
         }
     
     async def trigger_escalation(self, incident_id: str) -> Dict[str, Any]:
+        """Trigger escalation policy"""
         return {
             "status": "success",
             "message": f"Triggered escalation for {incident_id}"
@@ -523,7 +369,7 @@ class PagerDutyMCPTool(MCPServerTool):
 
 
 # ============================================================================
-# CREWAI AGENTS (keeping original ReportingAgent)
+# CREWAI AGENTS
 # ============================================================================
 
 class ReportingAgent:
@@ -541,6 +387,7 @@ class ReportingAgent:
         )
     
     def create_report_task(self, incident: Incident) -> Task:
+        """Create report generation task"""
         return Task(
             description=f"""
             Analyze this incident and generate a comprehensive report:
@@ -575,7 +422,7 @@ class ReportingAgent:
         )
     
     def parse_report(self, task_output: str, incident: Incident) -> IncidentReport:
-        """Parse report output and store LLM analysis"""
+        """Parse report output"""
         return IncidentReport(
             incident_id=incident.id,
             summary=f"{incident.title} - {incident.severity.value} severity in {incident.region}",
@@ -591,38 +438,459 @@ class ReportingAgent:
                 "Automated remediation",
                 "Capacity review"
             ],
-            generated_at=datetime.now().isoformat(),
-            llm_analysis=task_output  # Store raw LLM output
+            generated_at=datetime.now().isoformat()
         )
 
 
-# Note: IntelligentTicketingAgent class remains the same as in your original code
-# (I'm omitting it here for brevity, but you would keep your updated version with the improved prompt)
+class IntelligentTicketingAgent:
+    """Enhanced ticketing agent with TRUE LLM-driven decision making"""
+    
+    def __init__(self, jira_tool: JiraMCPTool, slack_tool: SlackMCPTool, 
+                 pagerduty_tool: PagerDutyMCPTool):
+        self.jira_tool = jira_tool
+        self.slack_tool = slack_tool
+        self.pagerduty_tool = pagerduty_tool
+        
+        self.agent = Agent(
+            role='Intelligent Incident Ticketing Coordinator',
+            goal='Make nuanced, context-aware decisions about incident routing and escalation',
+            backstory="""You are an expert incident coordinator with 15+ years of SRE experience.
+            You've handled thousands of incidents and developed an intuitive sense for what truly 
+            needs immediate attention versus what can wait. You understand the human cost of alert 
+            fatigue and balance urgency with team wellbeing. You think in terms of business impact, 
+            customer experience, and operational pragmatism.
+            
+            You know that severity labels alone don't tell the full story - a "high" severity 
+            internal dashboard issue at 3 AM is very different from a "medium" severity payment 
+            processing degradation during peak shopping hours.
+            
+            You make decisions that experienced SRE managers would make, not naive automated systems.""",
+            llm=llm,
+            verbose=True,
+            allow_delegation=False
+        )
+    
+    def create_decision_task(self, incident: Incident, 
+                            report: IncidentReport,
+                            context: IncidentContext) -> Task:
+        """Create task that asks LLM to make the actual decision"""
+        
+        # Build context description
+        time_context = self._describe_time_context(context)
+        impact_context = self._describe_impact_context(context)
+        
+        return Task(
+            description=f"""
+You are an experienced SRE manager making a real incident response decision. Think through this 
+carefully - your decision affects real people's sleep, work-life balance, and system reliability.
+
+═══════════════════════════════════════════════════════════════════════════════
+INCIDENT SITUATION
+═══════════════════════════════════════════════════════════════════════════════
+
+{incident.title}
+ID: {incident.id} | Service: {incident.service} | Region: {incident.region}
+Labeled Severity: {incident.severity.value.upper()} (but labels can be misleading!)
+
+What's happening:
+{incident.incident_text}
+
+═══════════════════════════════════════════════════════════════════════════════
+CONTEXT THAT MATTERS
+═══════════════════════════════════════════════════════════════════════════════
+
+TIME CONTEXT:
+{time_context}
+
+BUSINESS IMPACT:
+{impact_context}
+
+TECHNICAL METRICS:
+• Error Rate: {incident.metrics.get('error_rate', 'N/A')}
+• Latency (p99): {incident.metrics.get('p99_latency_ms', 'N/A')}ms
+• Request Rate: {incident.metrics.get('requests_per_second', 'N/A')} req/s
+• Affected Components: {', '.join(incident.affected_components)}
+
+RECENT SYSTEM LOGS:
+{self._format_list(incident.logs[-4:])}
+
+AVAILABLE FIXES:
+{self._format_list(incident.corrective_actions)}
+
+═══════════════════════════════════════════════════════════════════════════════
+YOUR DECISION-MAKING PROCESS
+═══════════════════════════════════════════════════════════════════════════════
+
+First, THINK THROUGH THESE QUESTIONS (write your thoughts):
+
+1. URGENCY CHECK:
+   - If you were the on-call engineer, would you want to be woken up at 3 AM for this?
+   - Or can this wait until morning standup?
+   - What's the actual blast radius RIGHT NOW?
+
+2. IMPACT REALITY:
+   - How many real users are affected this very moment?
+   - Are they unable to do their job or just experiencing slowness?
+   - Is money being lost every minute, or is this a "quality of life" issue?
+
+3. TIME SENSITIVITY:
+   - Will waiting 4 hours make this significantly worse?
+   - Is there active data loss or just potential future problems?
+   - Can the team self-heal or auto-scale through this?
+
+4. ALERT FATIGUE:
+   - Is this truly exceptional or part of normal operations?
+   - Have we been paging too much lately?
+   - Does the team need sleep more than we need immediate action?
+
+5. PROPORTIONAL RESPONSE:
+   - What's the MINIMUM response that handles this appropriately?
+   - Are we about to create a war room for something that needs a Jira ticket?
+   - Should we notify vs. escalate vs. just track?
+
+═══════════════════════════════════════════════════════════════════════════════
+RESPONSE SCENARIOS TO CONSIDER
+═══════════════════════════════════════════════════════════════════════════════
+
+Think about these patterns:
+
+• "It's 3 AM and the analytics dashboard is lagging" 
+  → Probably: Jira ticket, NO page, wait for business hours
+
+• "Payment processing is down during peak shopping hours"
+  → Probably: Page immediately, create war room, high urgency
+
+• "Internal tool has a memory leak, 85% usage but stable"
+  → Probably: Slack alert, schedule restart, no page
+
+• "DDoS hitting us but WAF is handling it, some false positives"
+  → Depends: Are real users blocked? How many? Page if revenue impact.
+
+• "High severity label but it's a weekend internal dashboard issue"
+  → Don't blindly trust severity labels! Assess actual impact.
+
+═══════════════════════════════════════════════════════════════════════════════
+NOW MAKE YOUR DECISION
+═══════════════════════════════════════════════════════════════════════════════
+
+Start with your reasoning - walk through your thought process conversationally.
+Then provide your decision in JSON format.
+
+FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
+
+REASONING:
+[Write 3-5 sentences explaining your thinking. Be specific about why you're choosing 
+this response level. Reference the specific context factors that influenced you.
+If you're NOT doing something (like not paging), explicitly say why.]
+
+DECISION:
+```json
+{{
+  "use_pagerduty": ,
+  "pagerduty_urgency": ,
+  "use_slack": ,
+  "slack_channel": ,
+  "create_jira": ,
+  "jira_priority": ,
+  "create_war_room": ,
+  "trigger_escalation": ,
+  "confidence_level": ,
+  "key_factors": []
+}}
+```
+
+Field types:
+- use_pagerduty, use_slack, create_jira, create_war_room, trigger_escalation: boolean
+- pagerduty_urgency: "high" or "low" (or null if not using PagerDuty)
+- slack_channel: string like "#incidents-critical", "#incidents", "#ops-alerts" (or null if not using Slack)
+- jira_priority: "CRITICAL", "HIGH", "MEDIUM", or "LOW"
+- confidence_level: "high", "medium", or "low"
+- key_factors: array of 2-4 strings describing what drove your decision
+
+REMEMBER: 
+- Don't just follow the severity label blindly
+- Consider the human cost of waking people up unnecessarily
+- Think about business hours vs. off-hours differently
+- Internal vs. customer-facing matters a LOT
+- Revenue impact is different from operational impact
+- Sometimes "do nothing urgent" is the right answer
+
+Make the decision you'd make if this were your on-call shift and your team's sleep schedule.
+            """,
+            agent=self.agent,
+            expected_output="Detailed reasoning followed by JSON decision"
+        )
+    
+    def _describe_time_context(self, context: IncidentContext) -> str:
+        """Generate human-readable time context"""
+        parts = []
+        
+        if not context.business_hours:
+            parts.append("⏰ OFF-HOURS (likely 2-4 AM) - Most engineers are asleep")
+        elif context.peak_traffic_hours:
+            parts.append("📈 PEAK TRAFFIC HOURS - Maximum user activity, highest impact window")
+        else:
+            parts.append("🕐 BUSINESS HOURS - Team is available and working")
+        
+        if context.weekend:
+            parts.append("📅 WEEKEND - Reduced on-call coverage")
+        else:
+            parts.append("📅 WEEKDAY - Full team availability")
+        
+        return "\n".join(parts)
+    
+    def _describe_impact_context(self, context: IncidentContext) -> str:
+        """Generate human-readable impact context"""
+        parts = []
+        
+        if context.customer_facing:
+            parts.append("👥 CUSTOMER-FACING: External users directly affected")
+        else:
+            parts.append("🔧 INTERNAL ONLY: No direct customer impact")
+        
+        if context.revenue_impacting:
+            parts.append("💰 REVENUE-IMPACTING: Directly affects company revenue")
+        else:
+            parts.append("💵 NO REVENUE IMPACT: Operational issue only")
+        
+        return "\n".join(parts)
+    
+    def _format_list(self, items: List[str]) -> str:
+        """Format list items"""
+        return "\n".join(f"  • {item}" for item in items)
+    
+    def _parse_llm_decision(self, llm_output: str) -> Dict[str, Any]:
+        """Parse LLM output to extract JSON decision"""
+        try:
+            # Try to find JSON in markdown code block
+            json_match = re.search(r'```json\s*(\{.*?\})\s*```', llm_output, re.DOTALL)
+            if json_match:
+                json_str = json_match.group(1)
+            else:
+                # Try to find raw JSON
+                json_match = re.search(r'\{.*?"reasoning".*?\}', llm_output, re.DOTALL)
+                if json_match:
+                    json_str = json_match.group(0)
+                else:
+                    raise ValueError("No JSON found in LLM output")
+            
+            decision = json.loads(json_str)
+            
+            # Validate required fields
+            required_fields = [
+                'reasoning', 'use_pagerduty', 'use_slack', 'jira_priority',
+                'create_jira', 'create_war_room', 'trigger_escalation'
+            ]
+            
+            for field in required_fields:
+                if field not in decision:
+                    raise ValueError(f"Missing required field: {field}")
+            
+            return decision
+            
+        except Exception as e:
+            print(f"⚠️  Failed to parse LLM decision: {e}")
+            print(f"Raw output: {llm_output[:500]}...")
+            # Return conservative default
+            return {
+                "reasoning": "Failed to parse LLM output, using conservative defaults",
+                "use_pagerduty": True,
+                "pagerduty_urgency": "high",
+                "use_slack": True,
+                "slack_channel": "#incidents",
+                "jira_priority": "HIGH",
+                "create_jira": True,
+                "create_war_room": False,
+                "trigger_escalation": False,
+                "wait_until_business_hours": False,
+                "confidence_level": "low",
+                "key_factors": ["parse_error"]
+            }
+    
+    async def execute_intelligent_ticketing(self, incident: Incident, 
+                                           report: IncidentReport,
+                                           context: IncidentContext) -> Dict[str, Any]:
+        """Execute ticketing based on LLM decision"""
+        
+        print(f"\n🧠 Asking LLM to make decision...")
+        print(f"   Context: {self._format_context(context)}")
+        print()
+        
+        # Create decision task
+        decision_task = self.create_decision_task(incident, report, context)
+        
+        # Run CrewAI to get LLM decision
+        decision_crew = Crew(
+            agents=[self.agent],
+            tasks=[decision_task],
+            process=Process.sequential,
+            verbose=False
+        )
+        
+        # Get LLM output
+        llm_output = str(decision_crew.kickoff())
+        
+        # Parse decision
+        decision = self._parse_llm_decision(llm_output)
+        
+        # Display LLM reasoning
+        print("💭 LLM Decision Reasoning:")
+        print(f"   {decision['reasoning']}")
+        print()
+        
+        if 'key_factors' in decision:
+            print("🔑 Key Decision Factors:")
+            for factor in decision['key_factors']:
+                print(f"   • {factor}")
+            print()
+        
+        print(f"🎯 Decision (Confidence: {decision.get('confidence_level', 'medium')}):")
+        print(f"   • PagerDuty: {'YES' if decision['use_pagerduty'] else 'NO'}")
+        print(f"   • Slack: {decision.get('slack_channel', 'NO') if decision['use_slack'] else 'NO'}")
+        print(f"   • Jira Priority: {decision['jira_priority']}")
+        print(f"   • War Room: {'YES' if decision['create_war_room'] else 'NO'}")
+        print(f"   • Escalate: {'YES' if decision['trigger_escalation'] else 'NO'}")
+        print()
+        
+        # Execute the LLM's decisions
+        tickets = []
+        actions = []
+        
+        # 1. Jira
+        if decision['create_jira']:
+            jira_result = await self.jira_tool.create_issue(
+                project="INCIDENT",
+                summary=incident.title,
+                description=f"{incident.incident_text}\n\nRegion: {incident.region}\n\n" +
+                           f"Corrective Actions:\n" + "\n".join(f"- {a}" for a in incident.corrective_actions),
+                priority=decision['jira_priority']
+            )
+            
+            tickets.append(Ticket(
+                ticket_id=jira_result['ticket_id'],
+                incident_id=incident.id,
+                platform="Jira",
+                title=incident.title,
+                description=incident.description,
+                priority=decision['jira_priority'],
+                assignee=None,
+                created_at=datetime.now().isoformat(),
+                url=jira_result['url']
+            ))
+            
+            actions.append(f"✓ Jira ticket created (Priority: {decision['jira_priority']})")
+        
+        # 2. PagerDuty
+        if decision['use_pagerduty']:
+            urgency = decision.get('pagerduty_urgency', 'high')
+            pd_result = await self.pagerduty_tool.create_incident(
+                title=incident.title,
+                description=report.summary,
+                urgency=urgency,
+                service_id=incident.service
+            )
+            
+            tickets.append(Ticket(
+                ticket_id=pd_result['incident_id'],
+                incident_id=incident.id,
+                platform="PagerDuty",
+                title=incident.title,
+                description=incident.description,
+                priority=incident.severity.value,
+                assignee="On-call Engineer",
+                created_at=datetime.now().isoformat(),
+                url=pd_result['url']
+            ))
+            
+            actions.append(f"✓ PagerDuty incident created (Urgency: {urgency})")
+            
+            if decision['trigger_escalation']:
+                await self.pagerduty_tool.trigger_escalation(pd_result['incident_id'])
+                actions.append("✓ Escalation policy triggered")
+        else:
+            actions.append("✗ NO PagerDuty - LLM decided not to wake on-call")
+        
+        # 3. Slack
+        if decision['use_slack']:
+            channel = decision.get('slack_channel', '#incidents')
+            await self.slack_tool.send_alert(
+                channel=channel,
+                severity=incident.severity.value,
+                message=f"*{incident.title}*\n{incident.incident_text}\n\nRegion: {incident.region}\nJira: {tickets[0].url if tickets else 'N/A'}"
+            )
+            
+            actions.append(f"✓ Slack alert sent to {channel}")
+            
+            if decision['create_war_room']:
+                war_room = await self.slack_tool.create_incident_channel(incident.id)
+                actions.append(f"✓ War room created: #{war_room['channel_name']}")
+        else:
+            actions.append("✗ NO Slack alert - LLM decided notification not needed")
+        
+        return {
+            "tickets": tickets,
+            "actions": actions,
+            "reasoning": [decision['reasoning']],
+            "decision_summary": {
+                "jira": decision['create_jira'],
+                "jira_priority": decision['jira_priority'],
+                "pagerduty": decision['use_pagerduty'],
+                "slack": decision['use_slack'],
+                "slack_channel": decision.get('slack_channel'),
+                "war_room": decision['create_war_room'],
+                "confidence": decision.get('confidence_level', 'medium'),
+                "key_factors": decision.get('key_factors', [])
+            },
+            "llm_decision": decision
+        }
+    
+    def _format_context(self, context: IncidentContext) -> str:
+        """Format context for display"""
+        parts = []
+        if not context.business_hours:
+            parts.append("Off-Hours")
+        elif context.peak_traffic_hours:
+            parts.append("Peak Traffic")
+        else:
+            parts.append("Business Hours")
+        
+        if context.weekend:
+            parts.append("Weekend")
+        
+        if context.customer_facing:
+            parts.append("Customer-Facing")
+        else:
+            parts.append("Internal")
+        
+        if context.revenue_impacting:
+            parts.append("Revenue-Impact")
+        
+        return " | ".join(parts)
 
 
 # ============================================================================
-# INCIDENT MANAGEMENT SYSTEM (UPDATED WITH STORAGE)
+# INCIDENT MANAGEMENT SYSTEM
 # ============================================================================
 
 class IncidentManagementSystem:
-    """Main orchestrator for incident management with report storage"""
+    """Main orchestrator for incident management"""
     
-    def __init__(self, storage_dir: str = "incident_reports"):
+    def __init__(self):
         self.jira_tool = JiraMCPTool()
         self.slack_tool = SlackMCPTool()
         self.pagerduty_tool = PagerDutyMCPTool()
         
         self.reporting_agent = ReportingAgent()
-        # Include your IntelligentTicketingAgent initialization here
+        self.ticketing_agent = IntelligentTicketingAgent(
+            self.jira_tool, 
+            self.slack_tool, 
+            self.pagerduty_tool
+        )
         
         self.incidents: Dict[str, Incident] = {}
         self.reports: Dict[str, IncidentReport] = {}
         self.tickets: Dict[str, List[Ticket]] = {}
         self.decisions: Dict[str, Dict[str, Any]] = {}
-        self.contexts: Dict[str, IncidentContext] = {}
-        
-        # Initialize storage manager
-        self.storage = ReportStorageManager(storage_dir)
     
     async def initialize(self):
         """Initialize the system"""
@@ -631,13 +899,12 @@ class IncidentManagementSystem:
         print("=" * 80)
         print("\n✓ MCP servers ready")
         print("✓ AI agents initialized")
-        print("✓ LLM-driven decision engine ready")
-        print("✓ Report storage configured")
+        print("✓ LLM-driven decision engine ready (NO hardcoded rules!)")
         print("\n")
     
     async def process_incident(self, incident: Incident, 
                               context: IncidentContext) -> Dict[str, Any]:
-        """Process incident with intelligent routing and report storage"""
+        """Process incident with intelligent routing"""
         
         print(f"\n{'=' * 80}")
         print(f"📊 Processing: {incident.id}")
@@ -645,10 +912,10 @@ class IncidentManagementSystem:
         print(f"Title: {incident.title}")
         print(f"Severity: {incident.severity.value.upper()}")
         print(f"Region: {incident.region}")
+        print(f"Context: {self.ticketing_agent._format_context(context)}")
         print(f"{'=' * 80}\n")
         
         self.incidents[incident.id] = incident
-        self.contexts[incident.id] = context
         
         # Step 1: Generate Report
         print("📝 Step 1: Generating Incident Report...")
@@ -667,47 +934,102 @@ class IncidentManagementSystem:
             report = self.reporting_agent.parse_report(str(report_result), incident)
             self.reports[incident.id] = report
             
-            # ===== SAVE REPORT TO STORAGE =====
-            json_path = self.storage.save_report_json(report, incident)
-            md_path = self.storage.save_report_markdown(report, incident, context)
-            
             print(f"✅ Report Generated")
             print(f"   Summary: {report.summary}")
-            print(f"   Root Cause: {report.root_cause}")
-            print(f"   💾 Saved to JSON: {json_path.name}")
-            print(f"   💾 Saved to Markdown: {md_path.name}\n")
+            print(f"   Root Cause: {report.root_cause}\n")
+        except Exception as e:
+            print(f"❌ Error: {e}\n")
+            return {"status": "error", "message": str(e)}
+        
+        # Step 2: LLM-Driven Intelligent Ticketing
+        print("🎯 Step 2: LLM Making Intelligent Ticketing Decision...")
+        print("-" * 80)
+        
+        try:
+            # Execute intelligent ticketing (LLM makes the decision)
+            result = await self.ticketing_agent.execute_intelligent_ticketing(
+                incident, report, context
+            )
+            
+            self.tickets[incident.id] = result['tickets']
+            self.decisions[incident.id] = result
+            
+            print(f"\n✅ Decision Executed")
+            print(f"\nActions Taken:")
+            for action in result['actions']:
+                print(f"   {action}")
+            
+            if result['reasoning']:
+                print(f"\nLLM Reasoning:")
+                for reason in result['reasoning']:
+                    print(f"   {reason}")
+            
+            print()
             
         except Exception as e:
             print(f"❌ Error: {e}\n")
             return {"status": "error", "message": str(e)}
         
-        # Step 2: Continue with ticketing logic...
-        # (Include your existing ticketing code here)
-        
+        # Return summary
         return {
             "status": "success",
             "incident_id": incident.id,
             "severity": incident.severity.value,
             "region": incident.region,
-            "report_paths": {
-                "json": str(json_path),
-                "markdown": str(md_path)
-            }
+            "context": asdict(context),
+            "report": asdict(report),
+            "tickets": [asdict(t) for t in result['tickets']],
+            "decision": result['decision_summary'],
+            "actions": result['actions'],
+            "reasoning": result['reasoning'],
+            "llm_decision": result.get('llm_decision', {})
         }
     
-    def export_all_reports(self):
-        """Export all reports to summary file"""
+    def print_summary(self):
+        """Print overall summary"""
         print("\n" + "=" * 80)
-        print("💾 EXPORTING ALL REPORTS")
+        print("📈 INCIDENT MANAGEMENT SUMMARY")
         print("=" * 80)
         
-        self.storage.export_summary()
+        total_incidents = len(self.incidents)
         
-        print(f"\n📊 Total Reports: {len(self.reports)}")
-        print(f"📁 Storage Location: {self.storage.base_dir.absolute()}")
-        print(f"   • JSON Reports: {len(list(self.storage.json_dir.glob('*.json')))}")
-        print(f"   • Markdown Reports: {len(list(self.storage.markdown_dir.glob('*.md')))}")
-        print("=" * 80 + "\n")
+        # Count by severity
+        severity_counts = {}
+        for incident in self.incidents.values():
+            sev = incident.severity.value
+            severity_counts[sev] = severity_counts.get(sev, 0) + 1
+        
+        # Count tickets by platform
+        platform_counts = {}
+        for tickets in self.tickets.values():
+            for ticket in tickets:
+                platform = ticket.platform
+                platform_counts[platform] = platform_counts.get(platform, 0) + 1
+        
+        # Decision analysis
+        pagerduty_incidents = sum(1 for d in self.decisions.values() if d['decision_summary']['pagerduty'])
+        jira_only_incidents = sum(1 for d in self.decisions.values() 
+                                 if d['decision_summary']['jira'] and not d['decision_summary']['pagerduty'])
+        
+        # Confidence analysis
+        high_confidence = sum(1 for d in self.decisions.values() 
+                             if d['decision_summary'].get('confidence') == 'high')
+        
+        print(f"\nTotal Incidents Processed: {total_incidents}")
+        print(f"\nBy Severity:")
+        for sev, count in sorted(severity_counts.items()):
+            print(f"   {sev.upper()}: {count}")
+        
+        print(f"\nTickets Created by Platform:")
+        for platform, count in sorted(platform_counts.items()):
+            print(f"   {platform}: {count}")
+        
+        print(f"\nLLM Decision Analysis:")
+        print(f"   PagerDuty Escalations: {pagerduty_incidents}")
+        print(f"   Jira Only (No Wake): {jira_only_incidents}")
+        print(f"   High Confidence Decisions: {high_confidence}/{total_incidents}")
+        
+        print(f"\n{'=' * 80}\n")
 
 
 # ============================================================================
@@ -715,25 +1037,26 @@ class IncidentManagementSystem:
 # ============================================================================
 
 async def main():
-    """Main execution with report storage"""
+    """Main execution with synthetic data"""
     
     print("""
     ╔══════════════════════════════════════════════════════════════════════════╗
     ║                                                                          ║
     ║         INTELLIGENT INCIDENT MANAGEMENT SYSTEM                          ║
-    ║         With Persistent Report Storage                                  ║
+    ║         TRUE LLM-Driven Context-Aware Decision Making                   ║
+    ║         (NO Hardcoded Rules!)                                           ║
     ║                                                                          ║
     ╚══════════════════════════════════════════════════════════════════════════╝
     """)
     
     # Initialize system
-    ims = IncidentManagementSystem(storage_dir="incident_reports")
+    ims = IncidentManagementSystem()
     await ims.initialize()
     
     # Generate synthetic incidents
     print("🔬 Generating synthetic incident scenarios...")
     generator = SyntheticIncidentGenerator()
-    scenarios = generator.generate_scenarios(count=4)
+    scenarios = generator.generate_scenarios(4)
     print(f"✓ Generated {len(scenarios)} diverse incident scenarios\n")
     
     # Process each incident
@@ -745,18 +1068,62 @@ async def main():
         
         if i < len(scenarios):
             print("\n" + "▼" * 80 + "\n")
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.5)  # Brief pause between incidents
     
-    # Export all reports
-    ims.export_all_reports()
+    # Print overall summary
+    ims.print_summary()
+    
+    # Display interesting LLM decisions
+    print("=" * 80)
+    print("🎯 INTERESTING LLM DECISION EXAMPLES")
+    print("=" * 80)
+    
+    for result in results:
+        if result['status'] == 'success' and 'llm_decision' in result:
+            decision = result['decision']
+            llm_decision = result.get('llm_decision', {})
+            
+            # Highlight nuanced decisions
+            if llm_decision.get('key_factors'):
+                print(f"\n📌 {result['incident_id']}: {result.get('severity', 'unknown').upper()}")
+                print(f"   Context: {ims.ticketing_agent._format_context(IncidentContext(**result['context']))}")
+                print(f"   LLM Decision:")
+                print(f"      • Jira: {decision['jira_priority'] if decision['jira'] else 'NO'}")
+                print(f"      • PagerDuty: {'YES' if decision['pagerduty'] else 'NO'}")
+                print(f"      • Slack: {decision['slack_channel'] if decision['slack'] else 'NO'}")
+                print(f"      • Confidence: {decision.get('confidence', 'medium')}")
+                
+                print(f"   Key Factors:")
+                for factor in llm_decision.get('key_factors', [])[:3]:
+                    print(f"      • {factor}")
+    
+    print(f"\n{'=' * 80}\n")
+    
+    # Export results to JSON
+    output = {
+        "summary": {
+            "total_incidents": len(results),
+            "successful": sum(1 for r in results if r['status'] == 'success'),
+            "timestamp": datetime.now().isoformat(),
+            "approach": "LLM-driven decisions (no hardcoded rules)"
+        },
+        "incidents": results
+    }
+    
+    print("💾 Saving results to incident_results.json...")
+    with open("incident_results.json", "w") as f:
+        json.dump(output, f, indent=2, default=str)
+    print("✓ Results saved\n")
     
     print("=" * 80)
     print("✅ INCIDENT MANAGEMENT SYSTEM TEST COMPLETE")
     print("=" * 80)
-    print("\nStored Reports:")
-    print(f"• JSON format in: {ims.storage.json_dir}")
-    print(f"• Markdown format in: {ims.storage.markdown_dir}")
-    print(f"• Summary at: {ims.storage.base_dir / 'reports_summary.json'}")
+    print("\nKey Features:")
+    print("• LLM makes ALL decisions dynamically (no if-else logic)")
+    print("• Context-aware reasoning for each incident")
+    print("• Confidence tracking for decision quality")
+    print("• Explainable decisions with key factors")
+    print("• Minimizes alert fatigue through intelligent routing")
     print("\n" + "=" * 80 + "\n")
 
 
