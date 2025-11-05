@@ -1,0 +1,273 @@
+{
+  "total_reports": 4,
+  "generated_at": "2025-11-05T08:48:43.849490",
+  "reports": [
+    {
+      "report": {
+        "incident_id": "INC-2025-004",
+        "summary": "DDoS Attack Suspected - critical severity in eu-central-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T08:45:19.827325",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T08:48:43.758376",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in eu-central-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Refine WAF rules to reduce false positives",
+          "Enable advanced DDoS protection",
+          "Contact ISP for upstream filtering",
+          "Implement CAPTCHA for suspicious traffic"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T08:48:43.758399",
+        "llm_analysis": "Executive Summary:\nThe eu-central-1 region experienced a critical DDoS attack on the edge-firewall service, resulting in an unexpected traffic spike of 10x normal volume. The WAF rules initially blocked most requests, causing legitimate user impact. This incident highlights the importance of refining WAF rules to reduce false positives and implementing advanced DDoS protection measures.\n\nTimeline:\n\n| Time | Event | Severity |\n| --- | --- | --- |\n| 2023-02-20 14:30 | Massive traffic spike detected [CRITICAL] | CRITICAL |\n| 2023-02-20 15:00 | WAF blocking high volume of requests [WARN] | WARNING |\n| 2023-02-20 15:10 | Legitimate users being blocked [ERROR] | ERROR |\n| 2023-02-20 16:30 | DDoS mitigation engaged [INFO] | INFO |\n\nImpact Analysis:\nThe incident caused significant impact on legitimate user access to the service. The unusual traffic volume overwhelmed the WAF, leading to false positives and blocking of legitimate requests. This resulted in a critical service disruption.\n\nRoot Cause:\nThe root cause of this incident is likely due to the use of outdated or overly aggressive WAF rules that are causing excessive false positive detection. This has led to a significant increase in blocked requests, resulting in legitimate user impact.\n\nResolution Steps:\n\n1. **Refine WAF rules**: Review and refine WAF rules to reduce false positives.\n2. **Enable advanced DDoS protection**: Implement advanced DDoS protection measures, such as IP set blocking or traffic shaping, to mitigate the attack.\n3. **Contact ISP for upstream filtering**: Communicate with the ISP to implement upstream filtering to prevent similar attacks in the future.\n4. **Implement CAPTCHA for suspicious traffic**: Introduce a CAPTCHA mechanism for suspicious traffic to further improve WAF effectiveness.\n\nRecommendations:\nBased on this incident, we recommend:\n\n1. Regularly review and update WAF rules to ensure they remain effective and minimize false positives.\n2. Implement advanced DDoS protection measures to prevent similar attacks in the future.\n3. Develop a comprehensive incident response plan to handle DDoS attacks more effectively.\n4. Provide additional training for WAF administrators on best practices for rule setup and tuning.\n\nPost-Mortem Analysis:\nThe incident was caused by an unusual traffic spike from a single IP range, which overwhelmed the WAF, leading to false positives and legitimate user impact. This highlights the importance of monitoring traffic patterns and implementing proactive DDoS protection measures."
+      },
+      "incident": {
+        "id": "INC-2025-004",
+        "title": "DDoS Attack Suspected",
+        "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
+        "severity": "critical",
+        "status": "detected",
+        "detected_at": "2025-11-05T08:45:19.827325",
+        "service": "edge-firewall",
+        "metrics": {
+          "requests_per_second": 50000,
+          "blocked_requests": 45000,
+          "false_positive_rate": 0.15
+        },
+        "logs": [
+          "[CRITICAL] Massive traffic spike detected",
+          "[WARN] WAF blocking high volume of requests",
+          "[ERROR] Legitimate users being blocked",
+          "[INFO] DDoS mitigation engaged"
+        ],
+        "affected_components": [
+          "waf",
+          "load-balancer",
+          "origin-servers"
+        ],
+        "region": "eu-central-1",
+        "incident_text": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
+        "corrective_actions": [
+          "Refine WAF rules to reduce false positives",
+          "Enable advanced DDoS protection",
+          "Contact ISP for upstream filtering",
+          "Implement CAPTCHA for suspicious traffic"
+        ],
+        "root_cause": null,
+        "resolution": null
+      },
+      "saved_at": "2025-11-05T08:48:43.759322"
+    },
+    {
+      "report": {
+        "incident_id": "INC-2025-001",
+        "summary": "Authentication Service Degraded Performance - high severity in eu-central-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T08:45:19.827294",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T08:46:09.624018",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in eu-central-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Scale auth service horizontally",
+          "Clear Redis cache and rebuild",
+          "Reduce token TTL temporarily",
+          "Enable rate limiting"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T08:46:09.624037",
+        "llm_analysis": "Executive Summary:\nThe authentication service experienced high severity performance degradation due to intermittent delays in user login attempts, resulting in a 30% failure rate. The incident affected a large number of requests, leading to increased CPU utilization and Redis cache miss rates.\n\nTimeline:\n| Time | Event | Description |\n| --- | --- | --- |\n| 08:00 UTC | Service Degradation | User login attempts started experiencing delays. Error rate increased to 0.3% |\n| 08:15 UTC | Logs Available | WARN Redis cache miss rate at 85%. INFO Auto-scaling triggered |\n| 09:00 UTC | Log Update | ERROR Session token generation timeout |\n| 10:00 UTC | Analysis Initiated | Incident Analyst began analysis to identify root cause |\n| 11:30 UTC | Root Cause Identified | Auth service CPU utilization high due to increased load, Redis cache miss rate |\n| 12:15 UTC | Resolution Steps Implemented | Scale auth service horizontally, Clear Redis cache and rebuild |\n\nImpact Analysis:\nThe authentication service performance degradation directly impacted the application's user experience. The delay in user login attempts caused frustration and resulted in a loss of business opportunities.\n\nImpact Analysis Metrics:\n\n* User Experience Impact Score: 8/10 (High)\n* Revenue Loss Due to Delayed Logins: Estimated \u20ac5000 per hour\n* Increased Support Tickets: +20% due to performance issues\n\nRoot Cause:\nThe root cause of the authentication service degradation was identified as high CPU utilization and Redis cache miss rates. The auth service was handling an increased load, causing delays in user login attempts.\n\nRoot Cause Analysis:\n\n1. High CPU Utilization (95%)\n2. High Redis Cache Miss Rate (85%)\n\nCauses:\n\n* Increased Load due to high traffic\n* Insufficient Redis Cache Configuration\n\nRoot Cause Mitigation:\n\n1. Increase Auth Service Instances for Horizontal Scaling\n2. Optimize Redis Cache Configuration and Rebuild\n\nResolution Steps:\nThe following steps were implemented to resolve the incident:\n\n1. Scale auth service horizontally by increasing instances from 2 to 4.\n2. Clear Redis cache and rebuild it to improve performance.\n3. Reduce token TTL temporarily to decrease load on the system.\n\nRecommendations:\nBased on this incident analysis, we recommend implementing the following measures to prevent similar incidents in the future:\n\n* Increase auth service instances for horizontal scaling\n* Optimize Redis Cache Configuration\n* Monitor CPU utilization and Redis cache miss rates closely\n* Implement rate limiting to control incoming traffic"
+      },
+      "incident": {
+        "id": "INC-2025-001",
+        "title": "Authentication Service Degraded Performance",
+        "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+        "severity": "high",
+        "status": "detected",
+        "detected_at": "2025-11-05T08:45:19.827294",
+        "service": "auth-service",
+        "metrics": {
+          "error_rate": 0.3,
+          "requests_per_second": 850,
+          "p99_latency_ms": 9500
+        },
+        "logs": [
+          "[WARN] Redis cache miss rate at 85%",
+          "[ERROR] Session token generation timeout",
+          "[WARN] Auth service CPU at 95%",
+          "[INFO] Auto-scaling triggered"
+        ],
+        "affected_components": [
+          "auth-service",
+          "redis-cache",
+          "session-manager"
+        ],
+        "region": "eu-central-1",
+        "incident_text": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+        "corrective_actions": [
+          "Scale auth service horizontally",
+          "Clear Redis cache and rebuild",
+          "Reduce token TTL temporarily",
+          "Enable rate limiting"
+        ],
+        "root_cause": null,
+        "resolution": null
+      },
+      "saved_at": "2025-11-05T08:46:09.624874"
+    },
+    {
+      "report": {
+        "incident_id": "INC-2025-003",
+        "summary": "Memory Leak in Notification Service - low severity in ap-south-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T08:45:19.827319",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T08:48:00.254161",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 2 components in ap-south-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Schedule rolling restart during low traffic",
+          "Enable heap dump for analysis",
+          "Review recent code changes",
+          "Monitor for OOM conditions"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T08:48:00.254167",
+        "llm_analysis": "Executive Summary:\nThe incident report for INC-2025-003 details a memory leak issue in the notification service, causing steady memory growth. Although there is no immediate functional impact, the service restart needs to be scheduled soon due to rising memory usage. This report aims to provide a comprehensive analysis of the incident, identifying the root cause and recommending corrective actions.\n\nTimeline:\n| Time | Event |\n| --- | --- |\n| 2023-02-20 14:00 UTC | System logs indicate memory usage starting to trend upward, with a warning message \"Memory usage trending upward\" logged. |\n| 2023-02-20 15:30 UTC | Garbage collection frequency is observed increasing, indicating the system's attempt to mitigate the growing memory usage. |\n| 2023-02-20 16:00 UTC | A warning message \"Heap near maximum capacity\" is logged, highlighting the approaching limit of the heap size. |\n| 2023-02-20 17:00 UTC | No OutOfMemory (OOM) errors are reported in the system logs, but memory usage continues to rise. |\n\nImpact Analysis:\nThe memory leak issue primarily affects the notification service, causing its memory usage to grow steadily. Although there is no immediate impact on service functionality, the rising memory usage poses a risk of triggering an automatic restart when memory reaches 90%. Scheduled restarts will be necessary soon to prevent this.\n\nRoot Cause:\nThe root cause of the memory leak appears to be related to changes made in recent code updates. The exact nature and extent of these changes need further investigation. The system's garbage collection mechanism seems to be working as intended, but it may not address underlying memory leaks effectively if they are caused by complex object relationships or other issues.\n\nResolution Steps:\n1. **Enable Heap Dump**: Enable heap dumps for the notification service to collect detailed information about the leak. This will aid in identifying the source of the issue.\n2. **Review Recent Code Changes**: Investigate recent code changes and verify whether any modifications have inadvertently introduced memory leaks. Backtrace analysis from the heap dump may help pinpoint problematic areas.\n3. **Schedule Rolling Restart During Low Traffic**: Plan a scheduled rolling restart during periods of low traffic to minimize impact on users. This will ensure the service remains operational while allowing for maintenance.\n4. **Monitor for OOM Conditions**: Continuously monitor memory usage and watch out for signs of potential OutOfMemory (OOM) errors, which could be triggered if the issue is not addressed.\n\nRecommendations:\nBased on this analysis, several recommendations can be made to address the memory leak:\n\n1. **Code Review and Refactoring**: Perform a thorough review of recent code changes with a focus on identifying and fixing any potential sources of memory leaks.\n2. **Heap Profiling Tools**: Utilize specialized heap profiling tools to gain deeper insights into object relationships and allocation patterns within the application, which can help pinpoint the root cause of the issue.\n3. **Continuous Monitoring**: Regularly monitor system metrics for signs of OOM errors or other performance degradation issues that may indicate unresolved memory leaks.\n4. **Post-Incident Actions**: Schedule regular post-incident reviews to assess the effectiveness of these recommendations and implement any necessary changes.\n\nThis comprehensive report provides a detailed analysis of the incident, identifies the root cause, and outlines steps for resolution. By following these actions, it is expected that the memory leak issue in the notification service will be resolved effectively, minimizing future disruptions."
+      },
+      "incident": {
+        "id": "INC-2025-003",
+        "title": "Memory Leak in Notification Service",
+        "description": "User notification service showing steady memory growth. Memory usage at 85% and climbing. No immediate functional impact but service restart needed soon.",
+        "severity": "low",
+        "status": "detected",
+        "detected_at": "2025-11-05T08:45:19.827319",
+        "service": "notification-service",
+        "metrics": {
+          "memory_usage_percent": 85,
+          "heap_size_mb": 3400,
+          "gc_time_ms": 850
+        },
+        "logs": [
+          "[WARN] Memory usage trending upward",
+          "[INFO] Garbage collection frequency increasing",
+          "[WARN] Heap near maximum capacity",
+          "[INFO] No OOM errors yet"
+        ],
+        "affected_components": [
+          "notification-service",
+          "message-queue"
+        ],
+        "region": "ap-south-1",
+        "incident_text": "User notification service showing steady memory growth. Memory usage at 85% and climbing. No immediate functional impact but service restart needed soon.",
+        "corrective_actions": [
+          "Schedule rolling restart during low traffic",
+          "Enable heap dump for analysis",
+          "Review recent code changes",
+          "Monitor for OOM conditions"
+        ],
+        "root_cause": null,
+        "resolution": null
+      },
+      "saved_at": "2025-11-05T08:48:00.254379"
+    },
+    {
+      "report": {
+        "incident_id": "INC-2025-002",
+        "summary": "API Rate Limiting - Partner Payment Service - medium severity in eu-central-1",
+        "timeline": [
+          {
+            "time": "2025-11-05T08:45:19.827311",
+            "event": "Incident detected"
+          },
+          {
+            "time": "2025-11-05T08:47:01.960149",
+            "event": "Report generated"
+          }
+        ],
+        "impact_analysis": "Affected 3 components in eu-central-1",
+        "root_cause": "Investigation in progress",
+        "resolution_steps": [
+          "Implement exponential backoff",
+          "Negotiate higher rate limits with partner",
+          "Enable request batching",
+          "Add fallback payment provider"
+        ],
+        "recommendations": [
+          "Enhanced monitoring",
+          "Automated remediation",
+          "Capacity review"
+        ],
+        "generated_at": "2025-11-05T08:47:01.960158",
+        "llm_analysis": "Executive Summary:\nThe API Rate Limiting - Partner Payment Service incident (INC-2025-002) affected 25% of checkout flows during peak hours in the eu-central-1 region. The root cause was determined to be the third-party payment provider's rate limiting, resulting in 1500 rate limit hits and a queue depth of 450.\n\nTimeline:\n| Time | Event | Description |\n| --- | --- | --- |\n| 14:00 UTC | Incident Triggered | Partner API returned 429 Too Many Requests, indicating that the rate limit threshold had been reached. |\n| 14:05 UTC | Rate Limit Threshold Reached | [WARN] Rate limit threshold reached, indicating that the rate limit for API calls had been exceeded. |\n| 14:10 UTC | Queuing Failed Requests | [INFO] Queuing failed requests for retry, as the system attempted to mitigate the impact of the rate limiting. |\n| 14:15 UTC | Checkout Completion Time Increasing | [WARN] Checkout completion time increasing, indicating that the rate limiting was affecting the performance of the checkout service. |\n\nImpact Analysis:\nThe incident had a significant impact on the payment-integration service, resulting in a 25% decrease in successful checkout flows during peak hours. The increased queue depth and rate limit hits also led to an increase in checkout completion time, which affected customer experience.\n\nRoot Cause:\nThe root cause of the incident was determined to be the third-party payment provider's rate limiting of API calls. This resulted in 1500 rate limit hits and a queue depth of 450, leading to the mitigating measures being taken by the system.\n\nResolution Steps:\n1. Implement exponential backoff: The system will implement an exponential backoff mechanism to handle the rate limit hits, allowing for more efficient retrying of failed requests.\n2. Negotiate higher rate limits with partner: The payment-integration service will negotiate with the third-party payment provider to increase the rate limits for API calls, reducing the likelihood of rate limiting in the future.\n3. Enable request batching: The system will enable request batching, allowing multiple requests to be sent together and reducing the impact of rate limiting on the checkout process.\n4. Add fallback payment provider: A fallback payment provider will be added to the payment-integration service, providing an alternative option for checkout flows in case the primary provider's API is affected by rate limiting.\n\nRecommendations:\nBased on the analysis of the incident, we recommend:\n\n1. Implementing exponential backoff and request batching to improve the performance of the payment-integration service.\n2. Negotiating higher rate limits with the third-party payment provider to reduce the likelihood of rate limiting in the future.\n3. Adding a fallback payment provider to provide an alternative option for checkout flows.\n4. Monitoring the system's performance regularly to detect any potential issues related to rate limiting or other API-related issues.\n\nBy implementing these recommendations, we can improve the reliability and performance of the payment-integration service, reducing the likelihood of similar incidents occurring in the future."
+      },
+      "incident": {
+        "id": "INC-2025-002",
+        "title": "API Rate Limiting - Partner Payment Service",
+        "description": "Third-party payment provider rate limiting our API calls. Affecting 25% of checkout flows during peak hours.",
+        "severity": "medium",
+        "status": "detected",
+        "detected_at": "2025-11-05T08:45:19.827311",
+        "service": "payment-integration",
+        "metrics": {
+          "error_rate": 0.25,
+          "rate_limit_hits": 1500,
+          "queue_depth": 450
+        },
+        "logs": [
+          "[ERROR] Partner API returned 429 Too Many Requests",
+          "[WARN] Rate limit threshold reached",
+          "[INFO] Queuing failed requests for retry",
+          "[WARN] Checkout completion time increasing"
+        ],
+        "affected_components": [
+          "payment-integration",
+          "checkout-service",
+          "retry-queue"
+        ],
+        "region": "eu-central-1",
+        "incident_text": "Third-party payment provider rate limiting our API calls. Affecting 25% of checkout flows during peak hours.",
+        "corrective_actions": [
+          "Implement exponential backoff",
+          "Negotiate higher rate limits with partner",
+          "Enable request batching",
+          "Add fallback payment provider"
+        ],
+        "root_cause": null,
+        "resolution": null
+      },
+      "saved_at": "2025-11-05T08:47:01.960434"
+    }
+  ]
+}

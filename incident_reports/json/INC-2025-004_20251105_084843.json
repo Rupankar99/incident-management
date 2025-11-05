@@ -1,0 +1,67 @@
+{
+  "report": {
+    "incident_id": "INC-2025-004",
+    "summary": "DDoS Attack Suspected - critical severity in eu-central-1",
+    "timeline": [
+      {
+        "time": "2025-11-05T08:45:19.827325",
+        "event": "Incident detected"
+      },
+      {
+        "time": "2025-11-05T08:48:43.758376",
+        "event": "Report generated"
+      }
+    ],
+    "impact_analysis": "Affected 3 components in eu-central-1",
+    "root_cause": "Investigation in progress",
+    "resolution_steps": [
+      "Refine WAF rules to reduce false positives",
+      "Enable advanced DDoS protection",
+      "Contact ISP for upstream filtering",
+      "Implement CAPTCHA for suspicious traffic"
+    ],
+    "recommendations": [
+      "Enhanced monitoring",
+      "Automated remediation",
+      "Capacity review"
+    ],
+    "generated_at": "2025-11-05T08:48:43.758399",
+    "llm_analysis": "Executive Summary:\nThe eu-central-1 region experienced a critical DDoS attack on the edge-firewall service, resulting in an unexpected traffic spike of 10x normal volume. The WAF rules initially blocked most requests, causing legitimate user impact. This incident highlights the importance of refining WAF rules to reduce false positives and implementing advanced DDoS protection measures.\n\nTimeline:\n\n| Time | Event | Severity |\n| --- | --- | --- |\n| 2023-02-20 14:30 | Massive traffic spike detected [CRITICAL] | CRITICAL |\n| 2023-02-20 15:00 | WAF blocking high volume of requests [WARN] | WARNING |\n| 2023-02-20 15:10 | Legitimate users being blocked [ERROR] | ERROR |\n| 2023-02-20 16:30 | DDoS mitigation engaged [INFO] | INFO |\n\nImpact Analysis:\nThe incident caused significant impact on legitimate user access to the service. The unusual traffic volume overwhelmed the WAF, leading to false positives and blocking of legitimate requests. This resulted in a critical service disruption.\n\nRoot Cause:\nThe root cause of this incident is likely due to the use of outdated or overly aggressive WAF rules that are causing excessive false positive detection. This has led to a significant increase in blocked requests, resulting in legitimate user impact.\n\nResolution Steps:\n\n1. **Refine WAF rules**: Review and refine WAF rules to reduce false positives.\n2. **Enable advanced DDoS protection**: Implement advanced DDoS protection measures, such as IP set blocking or traffic shaping, to mitigate the attack.\n3. **Contact ISP for upstream filtering**: Communicate with the ISP to implement upstream filtering to prevent similar attacks in the future.\n4. **Implement CAPTCHA for suspicious traffic**: Introduce a CAPTCHA mechanism for suspicious traffic to further improve WAF effectiveness.\n\nRecommendations:\nBased on this incident, we recommend:\n\n1. Regularly review and update WAF rules to ensure they remain effective and minimize false positives.\n2. Implement advanced DDoS protection measures to prevent similar attacks in the future.\n3. Develop a comprehensive incident response plan to handle DDoS attacks more effectively.\n4. Provide additional training for WAF administrators on best practices for rule setup and tuning.\n\nPost-Mortem Analysis:\nThe incident was caused by an unusual traffic spike from a single IP range, which overwhelmed the WAF, leading to false positives and legitimate user impact. This highlights the importance of monitoring traffic patterns and implementing proactive DDoS protection measures."
+  },
+  "incident": {
+    "id": "INC-2025-004",
+    "title": "DDoS Attack Suspected",
+    "description": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
+    "severity": "critical",
+    "status": "detected",
+    "detected_at": "2025-11-05T08:45:19.827325",
+    "service": "edge-firewall",
+    "metrics": {
+      "requests_per_second": 50000,
+      "blocked_requests": 45000,
+      "false_positive_rate": 0.15
+    },
+    "logs": [
+      "[CRITICAL] Massive traffic spike detected",
+      "[WARN] WAF blocking high volume of requests",
+      "[ERROR] Legitimate users being blocked",
+      "[INFO] DDoS mitigation engaged"
+    ],
+    "affected_components": [
+      "waf",
+      "load-balancer",
+      "origin-servers"
+    ],
+    "region": "eu-central-1",
+    "incident_text": "Unusual traffic spike from single IP range. 10x normal traffic volume. WAF rules blocking most requests but causing legitimate user impact.",
+    "corrective_actions": [
+      "Refine WAF rules to reduce false positives",
+      "Enable advanced DDoS protection",
+      "Contact ISP for upstream filtering",
+      "Implement CAPTCHA for suspicious traffic"
+    ],
+    "root_cause": null,
+    "resolution": null
+  },
+  "saved_at": "2025-11-05T08:48:43.759322"
+}

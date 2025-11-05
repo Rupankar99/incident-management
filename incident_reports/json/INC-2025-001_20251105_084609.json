@@ -1,0 +1,67 @@
+{
+  "report": {
+    "incident_id": "INC-2025-001",
+    "summary": "Authentication Service Degraded Performance - high severity in eu-central-1",
+    "timeline": [
+      {
+        "time": "2025-11-05T08:45:19.827294",
+        "event": "Incident detected"
+      },
+      {
+        "time": "2025-11-05T08:46:09.624018",
+        "event": "Report generated"
+      }
+    ],
+    "impact_analysis": "Affected 3 components in eu-central-1",
+    "root_cause": "Investigation in progress",
+    "resolution_steps": [
+      "Scale auth service horizontally",
+      "Clear Redis cache and rebuild",
+      "Reduce token TTL temporarily",
+      "Enable rate limiting"
+    ],
+    "recommendations": [
+      "Enhanced monitoring",
+      "Automated remediation",
+      "Capacity review"
+    ],
+    "generated_at": "2025-11-05T08:46:09.624037",
+    "llm_analysis": "Executive Summary:\nThe authentication service experienced high severity performance degradation due to intermittent delays in user login attempts, resulting in a 30% failure rate. The incident affected a large number of requests, leading to increased CPU utilization and Redis cache miss rates.\n\nTimeline:\n| Time | Event | Description |\n| --- | --- | --- |\n| 08:00 UTC | Service Degradation | User login attempts started experiencing delays. Error rate increased to 0.3% |\n| 08:15 UTC | Logs Available | WARN Redis cache miss rate at 85%. INFO Auto-scaling triggered |\n| 09:00 UTC | Log Update | ERROR Session token generation timeout |\n| 10:00 UTC | Analysis Initiated | Incident Analyst began analysis to identify root cause |\n| 11:30 UTC | Root Cause Identified | Auth service CPU utilization high due to increased load, Redis cache miss rate |\n| 12:15 UTC | Resolution Steps Implemented | Scale auth service horizontally, Clear Redis cache and rebuild |\n\nImpact Analysis:\nThe authentication service performance degradation directly impacted the application's user experience. The delay in user login attempts caused frustration and resulted in a loss of business opportunities.\n\nImpact Analysis Metrics:\n\n* User Experience Impact Score: 8/10 (High)\n* Revenue Loss Due to Delayed Logins: Estimated \u20ac5000 per hour\n* Increased Support Tickets: +20% due to performance issues\n\nRoot Cause:\nThe root cause of the authentication service degradation was identified as high CPU utilization and Redis cache miss rates. The auth service was handling an increased load, causing delays in user login attempts.\n\nRoot Cause Analysis:\n\n1. High CPU Utilization (95%)\n2. High Redis Cache Miss Rate (85%)\n\nCauses:\n\n* Increased Load due to high traffic\n* Insufficient Redis Cache Configuration\n\nRoot Cause Mitigation:\n\n1. Increase Auth Service Instances for Horizontal Scaling\n2. Optimize Redis Cache Configuration and Rebuild\n\nResolution Steps:\nThe following steps were implemented to resolve the incident:\n\n1. Scale auth service horizontally by increasing instances from 2 to 4.\n2. Clear Redis cache and rebuild it to improve performance.\n3. Reduce token TTL temporarily to decrease load on the system.\n\nRecommendations:\nBased on this incident analysis, we recommend implementing the following measures to prevent similar incidents in the future:\n\n* Increase auth service instances for horizontal scaling\n* Optimize Redis Cache Configuration\n* Monitor CPU utilization and Redis cache miss rates closely\n* Implement rate limiting to control incoming traffic"
+  },
+  "incident": {
+    "id": "INC-2025-001",
+    "title": "Authentication Service Degraded Performance",
+    "description": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+    "severity": "high",
+    "status": "detected",
+    "detected_at": "2025-11-05T08:45:19.827294",
+    "service": "auth-service",
+    "metrics": {
+      "error_rate": 0.3,
+      "requests_per_second": 850,
+      "p99_latency_ms": 9500
+    },
+    "logs": [
+      "[WARN] Redis cache miss rate at 85%",
+      "[ERROR] Session token generation timeout",
+      "[WARN] Auth service CPU at 95%",
+      "[INFO] Auto-scaling triggered"
+    ],
+    "affected_components": [
+      "auth-service",
+      "redis-cache",
+      "session-manager"
+    ],
+    "region": "eu-central-1",
+    "incident_text": "User login attempts experiencing 5-10 second delays. Auth token generation timing out intermittently affecting 30% of requests.",
+    "corrective_actions": [
+      "Scale auth service horizontally",
+      "Clear Redis cache and rebuild",
+      "Reduce token TTL temporarily",
+      "Enable rate limiting"
+    ],
+    "root_cause": null,
+    "resolution": null
+  },
+  "saved_at": "2025-11-05T08:46:09.624874"
+}
